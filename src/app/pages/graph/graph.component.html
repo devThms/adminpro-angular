@@ -1,3 +1,47 @@
-<p>
-  graph works!
-</p>
+<div class="row">
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class=card-title> {{ graficos.grafico1.leyenda }} </h3>
+                <app-graficos [ChartLabels]="graficos.grafico1.labels" [ChartData]="graficos.grafico1.data" [ChartType]="graficos.grafico1.type">
+                </app-graficos>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class=card-title> {{ graficos.grafico2.leyenda }} </h3>
+                <app-graficos [ChartLabels]="graficos.grafico2.labels" [ChartData]="graficos.grafico2.data" [ChartType]="graficos.grafico2.type">
+                </app-graficos>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class=card-title> {{ graficos.grafico3.leyenda }} </h3>
+                <app-graficos [ChartLabels]="graficos.grafico3.labels" [ChartData]="graficos.grafico3.data" [ChartType]="graficos.grafico3.type">
+                </app-graficos>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class=card-title> {{ graficos.grafico4.leyenda }} </h3>
+                <app-graficos [ChartLabels]="graficos.grafico4.labels" [ChartData]="graficos.grafico4.data" [ChartType]="graficos.grafico4.type">
+                </app-graficos>
+            </div>
+        </div>
+    </div>
+
+</div>
