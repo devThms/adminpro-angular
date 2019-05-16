@@ -1,0 +1,48 @@
+<div class="row animated fadeIn">
+    <!-- Column -->
+    <div class="col-lg-5 col-xlg-6 col-md-5">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white"> Avatar de Usuario</h5>
+            <div class="card-body" align="center">
+                <div class="m-t-30">
+                    <img *ngIf="!imagenView" [src]="usuario.img | imagen" class="img-circle" width="150" />
+                    <img *ngIf="imagenView" [src]="imagenView" class="img-circle" width="150" />
+                    <h4 class="card-title m-t-10">{{ usuario.role }}</h4>
+                </div>
+                <input (change)="selectionImage( $event.target.files[0] )" type="file" class="form-control">
+                <br><br>
+                <button (click)="updateImage()" [disabled]="!subirImagen" class="btn btn-block btn-outline-success"><i class="fa fa-upload"> </i> Actualizar Imagen</button>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+
+    <!-- Column -->
+    <div class="col-lg-7 col-xlg-6 col-md-7">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white"> Perfil de Usuario</h5>
+            <div class="card-body">
+                <form ngNativeValidate #f="ngForm" (ngSubmit)="actualizar( f.value )" class="form-horizontal form-material">
+                    <div class="form-group">
+                        <label class="col-md-12"> Nombre:</label>
+                        <div class="col-md-12">
+                            <input [ngModel]="usuario.name" name="name" type="text" class="form-control form-control-line" placeholder="Nombre de usuario" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-email" class="col-md-12"> Email:</label>
+                        <div class="col-md-12">
+                            <input [ngModel]="usuario.email" name="email" type="email" class="form-control form-control-line" placeholder="Correo de usuario" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-outline-success"><i class="fa fa-save"> </i> Actualizar Perfil</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+</div>

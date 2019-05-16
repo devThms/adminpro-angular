@@ -1,9 +1,14 @@
 <body>
-    <form class="login" (ngSubmit)="ingresar()">
+    <form ngNativeValidate #f="ngForm" class="login" (ngSubmit)="ingresar( f )">
         <h1 class="login-title">Bienvenido</h1>
-        <input type="text" class="login-input" name="email" placeholder="Email Adress" autofocus>
-        <input type="password" class="login-input" name="password" placeholder="Password">
+        <input [ngModel]="email" name="email" required type="email" class="login-input" placeholder="Email Adress" autofocus>
+        <input ngModel name="password" required type="password" class="login-input" placeholder="Password">
+        <div class="form-check">
+            <input [(ngModel)]="recuerdame" name="recuerdame" type="checkbox" class="form-check-input" id="checkbox-signup">
+            <label class="form-check-label" for="checkbox-signup"> Recuérdame</label>
+        </div>
         <input type="submit" value="Login" class="login-button">
-        <p class="login-lost"><a href="">Olvido su password?</a></p>
+        <br> <br>
+        <p class="login-lost">¿No tiene cuenta? <a routerLink="/register" class="text-primary"> Crear una cuenta</a></p>
     </form>
 </body>

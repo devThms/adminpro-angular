@@ -1,10 +1,11 @@
 <body>
-    <form class="login">
+    <form ngNativeValidate [formGroup]="form" (ngSubmit)="registrarUsuario()" class="login">
         <h1 class="login-title">Registro</h1>
-        <input type="text" class="login-input" name="fullname" placeholder="Full Name" autofocus>
-        <input type="text" class="login-input" name="email" placeholder="Email Adress">
-        <input type="password" class="login-input" name="password" placeholder="Password">
+        <input formControlName="nombre" name="nombre" type="text" class="login-input" required placeholder="Full Name" autofocus>
+        <input formControlName="correo" name="correo" type="email" class="login-input" required placeholder="Email Adress">
+        <input formControlName="password" name="password" type="password" class="login-input" required placeholder="Password">
         <input type="submit" value="Registrar" class="login-button">
-        <p class="login-lost">Tienes una cuenta? <a href="login">Ingresa ahora</a></p>
+        <br> <br>
+        <p class="login-lost">¿Tienes una cuenta? <a routerLink="/login" class="text-primary">Ingresa ahora</a></p>
     </form>
 </body>

@@ -8,14 +8,17 @@
         <!-- ============================================================== -->
         <div class="navbar-header">
             <a class="navbar-brand" href="index.html">
-                <!-- Logo icon --><b>
-                            <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
-                        </b>
+                <!-- Logo icon -->
+                <b>
+                    <!-- <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo" /> -->
+                    <i class="mdi mdi-apple-mobileme"></i>
+                </b>
                 <!--End Logo icon -->
                 <!-- Logo text -->
                 <span>
-                            <img src="assets/images/logo-text.png" alt="homepage" class="dark-logo" />
-                        </span>
+                    <!-- <img src="assets/images/logo-text.png" alt="homepage" class="dark-logo" /> -->
+                    Elections-API
+                </span>
             </a>
         </div>
         <!-- ============================================================== -->
@@ -44,8 +47,25 @@
                 <!-- ============================================================== -->
                 <!-- Profile -->
                 <!-- ============================================================== -->
-                <li class="nav-item">
-                    <a class="nav-link waves-effect waves-dark" href="#"><img src="assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
+                <li class="nav-item dropdown" ngbDropdown placement="bottom-right">
+                    <a ngbDropdownToggle class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img [src]="usuario.img | imagen" alt="user" class="profile-pic" /></a>
+                    <div class="dropdown-menu dropdown-menu-right animated slideInDown" ngbDropdownMenu>
+                        <ul class="dropdown-user">
+                            <li>
+                                <div class="dw-user-box">
+                                    <div class="u-img"><img [src]="usuario.img | imagen" alt="user"></div>
+                                    <div class="u-text">
+                                        <h4>{{ usuario.name }}</h4>
+                                        <p class="text-muted">{{ usuario.email }}</p><a routerLinkActive="active" routerLink="/perfil" class="btn btn-rounded btn-danger btn-sm"> Ver Perfil</a></div>
+                                </div>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li><a routerLinkActive="active" routerLink="/perfil"><i class="ti-user"></i> Mi Perfil</a></li>
+                            <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a (click)="_usuarioService.logout()" class="pointer"><i class="fa fa-power-off"></i> Logout</a></li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>

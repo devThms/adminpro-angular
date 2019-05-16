@@ -1,0 +1,69 @@
+<div class="row animated fadeIn" *ngIf="cargando">
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong> Cargando </strong>
+            <br>
+            <i class=" fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span> Espere por favor</span>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white">Usuarios Registrados ( <small> {{ totalRegistros }}</small> ) </h5>
+
+            <div class="card-body text-black">
+                <div class="row">
+                    <div class="col-7">
+                        Mostrando [ <small> 5 </small> ] registros
+                    </div>
+                    <div class="col-5">
+                        <span class="pull-right"><input #input (keyup)="buscarUsuarios( input.value )" type="text" class="form-control" placeholder="Buscar usuario...." autofocus></span>
+                    </div>
+                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr width="70px">
+                            <th> Imagen </th>
+                            <th> Correo </th>
+                            <th> Nombre </th>
+                            <th> Role </th>
+                            <th> Acciones </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark">
+                        <tr *ngFor="let usuario of usuarios">
+                            <td width="70px"> <img (click)="showModal( usuario._id )" [src]="usuario.img | imagen" class="img-circle pointer" width="50"> </td>
+                            <td> {{ usuario.email }} </td>
+                            <td> {{ usuario.name }} </td>
+                            <td>
+                                <select [(ngModel)]="usuario.role" name="role" class="form-control">
+                                    <option value="ADMIN_ROLE"> Administrator</option>
+                                    <option value="USER_ROLE"> Operator</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button (click)="actualizarUsuario( usuario )" class="btn btn-outline-primary"> <i class="fa fa-save"></i></button>
+                                <button (click)="borrarUsuario( usuario )" class="btn btn-outline-danger"> <i class="fa fa-trash-o"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="col-12">
+                    <span class="pull-right">
+                            <button (click)="cambiarDesde(-5)" class="btn btn-outline-inverse"><i class="fa fa-arrow-left"> </i> Anteriores </button>
+                            <button (click)="cambiarDesde(5)" class="btn btn-outline-inverse"> Siguientes <i class="fa fa-arrow-right"> </i></button>
+                    </span>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

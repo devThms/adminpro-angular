@@ -7,8 +7,8 @@ import { NotfoundComponent } from './shared/notfound/notfound.component';
 
 
 const appRoutes: Routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: 'login', component: LoginComponent, data: { titulo: 'Elections-API' } },
+    { path: 'register', component: RegisterComponent, data: { titulo: 'Registro' } },
     { path: '**', component: NotfoundComponent }
 ];
 
