@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SubirArchivoService } from '../../services/uploads/subir-archivo.service';
 import { ModalUploadService } from './modal-upload.service';
-import { Usuario } from '../../models/usuario.model';
+import { UsuarioService } from '../../services/usuario/usuario.service';
 
 import Swal from 'sweetalert2';
-import { UsuarioService } from '../../services/usuario/usuario.service';
 
 @Component({
   selector: 'app-modal-upload',
@@ -20,7 +19,9 @@ export class ModalUploadComponent implements OnInit {
     // tslint:disable-next-line:variable-name
     public _subirArchivoService: SubirArchivoService,
     // tslint:disable-next-line:variable-name
-    public _modalUploadService: ModalUploadService
+    public _modalUploadService: ModalUploadService,
+    // tslint:disable-next-line:variable-name
+    public _usuarioService: UsuarioService
   ) {  }
 
   ngOnInit() {
@@ -36,8 +37,9 @@ export class ModalUploadComponent implements OnInit {
   updateImage() {
 
     this._subirArchivoService.subirArchivo( this.subirImagen, this._modalUploadService.tipo, this._modalUploadService.id )
-                              .then( resp => {
+                              .then( (resp: any) => {
                                 this._modalUploadService.notification.emit( resp );
+                                this._usuarioService.usuario.img = resp.usuarioActualizado.img;
                                 this.cerrarModal();
                               })
                               .catch( err => {

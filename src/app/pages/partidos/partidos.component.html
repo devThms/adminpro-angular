@@ -1,0 +1,173 @@
+<div class="row animated fadeIn" *ngIf="cargando">
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong> Cargando </strong>
+            <br>
+            <i class=" fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span> Espere por favor</span>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white">
+                Partidos Politicos Registrados ( <small> {{ totalRegistros }} </small> )
+                <span class="pull-right"><button (click)="showModalCreate()" class="btn btn-rounded btn-outline-success"><i class="fa fa-plus"> </i> Crear </button></span>
+            </h5>
+
+            <div class="card-body text-black">
+                <div class="row">
+                    <div class="col-7">
+                        Mostrando [ <small> 5 </small> ] registros
+                    </div>
+                    <div class="col-5">
+                        <span class="pull-right"><input #input (keyup)="buscarPartido( input.value )" type="text" class="form-control" placeholder="Buscar Partido...." autofocus></span>
+                    </div>
+                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Logotipo </th>
+                            <th width="200px"> Nombre </th>
+                            <th> Dirección </th>
+                            <th width="150px"> Telefono </th>
+                            <th width="150px"> Acciones </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark">
+                        <tr *ngFor="let partido of partidos">
+                            <td width="70px"> <img (click)="showModal( partido )" [src]="partido.logotype | imagen: 'partidos'" class="img-circle pointer" width="50"> </td>
+                            <td> {{ partido.name }} </td>
+                            <td> {{ partido.address }} </td>
+                            <td> {{ partido.phone }} </td>
+                            <td>
+                                <button (click)="showModalUpdate( partido )" class="btn btn-outline-primary"> <i class="fa fa-pencil-square-o"></i></button>
+                                <button (click)="borrarPartido( partido )" class="btn btn-outline-danger"> <i class="fa fa-trash-o"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="col-12">
+                    <span class="pull-right">
+                          <button (click)="cambiarDesde(-5)" class="btn btn-outline-inverse"><i class="fa fa-arrow-left"> </i> Anteriores </button>
+                          <button (click)="cambiarDesde(5)" class="btn btn-outline-inverse"> Siguientes <i class="fa fa-arrow-right"> </i></button>
+                  </span>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Create Partido -->
+<div class="fondo-negro animated fadeIn" [ngClass]="modalCreate">
+    <div class="modal" style="display: block;" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b> <i class="fa fa-plus"> </i> Crear Partido Politico</b></h5>
+                    <button (click)="hideModalCreate()" type="button" class="close" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form ngNativeValidate [formGroup]="form" (ngSubmit)="crearPartido()" class="form-horizontal form-material" autocomplete="off">
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Nombre del Partido: </b></label>
+                            <div class="col-md-12">
+                                <input formControlName="name" name="name" type="text" class="form-control form-control-line" placeholder="Ej: Valor" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Dirección del Partido: </b></label>
+                            <div class="col-md-12">
+                                <input formControlName="address" name="address" type="text" class="form-control form-control-line" placeholder="Ej: Zona 15, Ciudad de Guatemala" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Telefono del Partido: </b></label>
+                            <div class="col-md-12">
+                                <input formControlName="phone" name="phone" type="text" class="form-control form-control-line" placeholder="Ej: 79489649" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Año de Fundación: </b></label>
+                            <div class="col-md-12">
+                                <input formControlName="foundation" name="foundation" type="date" class="form-control form-control-line" placeholder="Ej: 15/05/2019" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success"><i class="fa fa-save"> </i> Guardar</button>
+                        <button (click)="hideModalCreate()" type="button" class="btn btn-outline-inverse">Cerrar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Update Partido -->
+<div class="fondo-negro animated fadeIn" [ngClass]="modalUpdate">
+    <div class="modal" style="display: block;" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b> <i class="fa fa-plus"> </i> Actualizar Partido Politico</b></h5>
+                    <button (click)="hideModalUpdate()" type="button" class="close" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form autocomplete="off" ngNativeValidate #f="ngForm" (ngSubmit)="actualizarPartido( f.value )" class="form-horizontal form-material">
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Nombre del Partido: </b></label>
+                            <div class="col-md-12">
+                                <input [ngModel]="partido.name" name="name" type="text" class="form-control form-control-line" placeholder="Ej: Valor" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Dirección del Partido: </b></label>
+                            <div class="col-md-12">
+                                <input [ngModel]="partido.address" name="address" type="text" class="form-control form-control-line" placeholder="Ej: Zona 15, Ciudad de Guatemala" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Telefono del Partido: </b></label>
+                            <div class="col-md-12">
+                                <input [ngModel]="partido.phone" name="phone" type="text" class="form-control form-control-line" placeholder="Ej: 79489649" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Año de Fundación: </b></label>
+                            <div class="col-md-12">
+                                <input [ngModel]="partido.foundation" name="foundation" type="date" class="form-control form-control-line" placeholder="Ej: 15/05/2019" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success"><i class="fa fa-save"> </i> Guardar</button>
+                        <button (click)="hideModalUpdate()" type="button" class="btn btn-outline-inverse">Cerrar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>

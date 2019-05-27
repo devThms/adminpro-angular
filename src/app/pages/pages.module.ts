@@ -5,7 +5,7 @@ import { PAGES_ROUTES } from './pages.routes';
 
 // Modulos
 import { SharedModule } from '../shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
 
@@ -23,6 +23,11 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
+import { PerfilesComponent } from './perfiles/perfiles.component';
+import { PartidosComponent } from './partidos/partidos.component';
+import { PeriodosComponent } from './periodos/periodos.component';
+import { CandidatosComponent } from './candidatos/candidatos.component';
+import { CandidatoComponent } from './candidatos/candidato.component';
 
 @NgModule({
     declarations: [
@@ -35,7 +40,12 @@ import { ModalUploadComponent } from '../components/modal-upload/modal-upload.co
         AccountSettingsComponent,
         UsuariosComponent,
         ProfileComponent,
-        ModalUploadComponent
+        ModalUploadComponent,
+        PerfilesComponent,
+        PartidosComponent,
+        PeriodosComponent,
+        CandidatosComponent,
+        CandidatoComponent
     ],
     exports: [
         PagesComponent,
@@ -47,6 +57,7 @@ import { ModalUploadComponent } from '../components/modal-upload/modal-upload.co
         SharedModule,
         PAGES_ROUTES,
         FormsModule,
+        ReactiveFormsModule,
         ChartsModule,
         CommonModule,
         PipesModule

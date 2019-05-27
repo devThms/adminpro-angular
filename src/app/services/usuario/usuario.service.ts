@@ -108,6 +108,7 @@ export class UsuarioService {
 
                         // tslint:disable-next-line:prefer-const
                         let usuarioDB: Usuario = resp.user;
+                        this.usuario = usuarioDB;
                         this.guardarStorage( usuarioDB._id, this.token, usuarioDB);
 
                       }

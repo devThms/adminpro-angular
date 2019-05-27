@@ -1,0 +1,156 @@
+<div class="row animated fadeIn" *ngIf="cargando">
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong> Cargando </strong>
+            <br>
+            <i class=" fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span> Espere por favor</span>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white">
+                Periodos de Participación ( <small> {{ totalRegistros }} </small> )
+                <span class="pull-right"><button (click)="showModalCreate()" class="btn btn-rounded btn-outline-success"><i class="fa fa-plus"> </i> Crear </button></span>
+            </h5>
+
+            <div class="card-body text-black">
+                <div class="row">
+                    <div class="col-7">
+                        Mostrando [ <small> 5 </small> ] registros
+                    </div>
+                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Periodo: </th>
+                            <th> Año: </th>
+                            <th> Fecha de Votación: </th>
+                            <th width="150px"> Acciones </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark">
+                        <tr *ngFor="let periodo of periodos">
+                            <td> {{ periodo.period }} </td>
+                            <td> {{ periodo.year }} </td>
+                            <td> {{ periodo.dateVoting }} </td>
+                            <td>
+                                <button (click)="showModalUpdate( periodo )" class="btn btn-outline-primary"> <i class="fa fa-pencil-square-o"></i></button>
+                                <button (click)="borrarPeriodo( periodo )" class="btn btn-outline-danger"> <i class="fa fa-trash-o"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="col-12">
+                    <span class="pull-right">
+                          <button (click)="cambiarDesde(-5)" class="btn btn-outline-inverse"><i class="fa fa-arrow-left"> </i> Anteriores </button>
+                          <button (click)="cambiarDesde(5)" class="btn btn-outline-inverse"> Siguientes <i class="fa fa-arrow-right"> </i></button>
+                  </span>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Create -->
+<div class="fondo-negro animated fadeIn" [ngClass]="modalCreate">
+    <div class="modal" style="display: block;" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b><i class="fa fa-plus"> </i> Crear Periodo de Participación</b></h5>
+                    <button (click)="hideModalCreate()" type="button" class="close" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form ngNativeValidate [formGroup]="form" (ngSubmit)="crearPeriodo()" class="form-horizontal form-material" autocomplete="off">
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Periodo de Participación: </b></label>
+                            <div class="col-md-12">
+                                <input formControlName="period" name="period" type="text" class="form-control form-control-line" placeholder="Ej: 2010-2015" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Año de Participación: </b></label>
+                            <div class="col-md-12">
+                                <input formControlName="year" name="year" type="text" class="form-control form-control-line" placeholder="Ej: 2015" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Fecha de Elecciones: </b></label>
+                            <div class="col-md-12">
+                                <input formControlName="dateVoting" name="dateVoting" type="date" class="form-control form-control-line" placeholder="Ej: 21/05/2019" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success"><i class="fa fa-save"> </i> Guardar</button>
+                        <button (click)="hideModalCreate()" type="button" class="btn btn-outline-inverse">Cerrar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Update -->
+<div class="fondo-negro animated fadeIn" [ngClass]="modalUpdate">
+    <div class="modal" style="display: block;" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b><i class="fa fa-plus"> </i> Actualizar Periodo de Participación</b></h5>
+                    <button (click)="hideModalUpdate()" type="button" class="close" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form autocomplete="off" ngNativeValidate #f="ngForm" (ngSubmit)="actualizarPeriodo( f.value )" class="form-horizontal form-material">
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Periodo de Participación: </b></label>
+                            <div class="col-md-12">
+                                <input [ngModel]="periodo.period" name="period" type="text" class="form-control form-control-line" placeholder="Ej: 2010-2015" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Año de Participación: </b></label>
+                            <div class="col-md-12">
+                                <input [ngModel]="periodo.year" name="year" type="text" class="form-control form-control-line" placeholder="Ej: 2015" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Fecha de Elecciones: </b></label>
+                            <div class="col-md-12">
+                                <input [ngModel]="periodo.dateVoting" name="dateVoting" type="date" class="form-control form-control-line" placeholder="Ej: 21/05/2019" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success"><i class="fa fa-save"> </i> Guardar</button>
+                        <button (click)="hideModalUpdate()" type="button" class="btn btn-outline-inverse">Cerrar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>

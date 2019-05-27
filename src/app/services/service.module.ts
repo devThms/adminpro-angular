@@ -8,7 +8,11 @@ import {
   SharedService,
   UsuarioService,
   LoginGuardGuard,
-  SubirArchivoService
+  SubirArchivoService,
+  PoliticalProfileService,
+  PoliticalPartyService,
+  ParticipationPeriodService,
+  CandidateService
 } from './service.index';
 
 @NgModule({
@@ -23,7 +27,11 @@ import {
     UsuarioService,
     LoginGuardGuard,
     SubirArchivoService,
-    ModalUploadService
+    ModalUploadService,
+    PoliticalProfileService,
+    PoliticalPartyService,
+    ParticipationPeriodService,
+    CandidateService
   ]
 })
 export class ServiceModule { }

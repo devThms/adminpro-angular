@@ -25,7 +25,19 @@
 
                 <li class="nav-devider"></li>
                 <li class="nav-small-cap"> MANTENIMIENTOS</li>
-                <li *ngFor="let menu of _sidebar.menu">
+                <li *ngFor="let menu of _sidebar.menuAdmin">
+                    <a class="has-arrow waves-effect waves-dark" aria-expanded="false"> <i [class]="menu.icono"></i><span class="hide-menu"> {{ menu.titulo }}<span class="label label-rouded label-themecolor pull-right"> {{ menu.submenu.length }} </span></span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li *ngFor="let submenu of menu.submenu">
+                            <a routerLinkActive="active" [routerLink]="[ submenu.url ]"><i [class]="submenu.icono"></i> {{ submenu.titulo }}</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-devider"></li>
+                <li class="nav-small-cap"> OPERACIONES</li>
+                <li *ngFor="let menu of _sidebar.menuOperator">
                     <a class="has-arrow waves-effect waves-dark" aria-expanded="false"> <i [class]="menu.icono"></i><span class="hide-menu"> {{ menu.titulo }}<span class="label label-rouded label-themecolor pull-right"> {{ menu.submenu.length }} </span></span>
                     </a>
                     <ul aria-expanded="false" class="collapse">

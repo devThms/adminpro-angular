@@ -1,0 +1,67 @@
+<div class="row animated fadeIn" *ngIf="cargando">
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong> Cargando </strong>
+            <br>
+            <i class=" fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span> Espere por favor</span>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white">
+                Candidatos Politicos Registrados ( <small> {{ totalRegistros }} </small> )
+                <span class="pull-right"><button class="btn btn-rounded btn-outline-success"><i class="fa fa-plus"> </i> Crear </button></span>
+            </h5>
+
+            <div class="card-body text-black">
+                <div class="row">
+                    <div class="col-7">
+                        Mostrando [ <small> 5 </small> ] registros
+                    </div>
+                    <div class="col-5">
+                        <span class="pull-right"><input #input (keyup)="buscarCandidato( input.value )" type="text" class="form-control" placeholder="Buscar Candidato...." autofocus></span>
+                    </div>
+                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Foto </th>
+                            <th> Nombre Completo </th>
+                            <th> Perfil Politico </th>
+                            <th> Partido Politico </th>
+                            <th width="150px"> Acciones </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark">
+                        <tr *ngFor="let candidato of candidatos">
+                            <td width="70px"> <img [src]="candidato.img | imagen: 'candidatos'" class="img-circle" width="50px"> </td>
+                            <td> {{ candidato.firstName + ' ' + candidato.lastName}} </td>
+                            <td> {{ candidato.profile.name }} </td>
+                            <td> {{ candidato.political.name }} </td>
+                            <td>
+                                <button class="btn btn-outline-primary"> <i class="fa fa-pencil-square-o"></i></button>
+                                <button class="btn btn-outline-danger"> <i class="fa fa-trash-o"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="col-12">
+                    <span class="pull-right">
+                        <button (click)="cambiarDesde(-5)" class="btn btn-outline-inverse"><i class="fa fa-arrow-left"> </i> Anteriores </button>
+                        <button (click)="cambiarDesde(5)" class="btn btn-outline-inverse"> Siguientes <i class="fa fa-arrow-right"> </i></button>
+                </span>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,13 +6,17 @@ import { URL_SERVICES } from '../config/config';
 })
 export class ImagenPipe implements PipeTransform {
 
-  transform(img: string, tipo: string = 'usuarios'): any {
+  transform(img: string, tipo: string = 'usuarios' ): any {
 
     // tslint:disable-next-line:prefer-const
     let url = URL_SERVICES + '/images';
 
     if ( !img ) {
       return url + '/usuarios/xxx';
+    }
+
+    if ( img.indexOf('https') >= 0 ) {
+      return img;
     }
 
     switch ( tipo ) {

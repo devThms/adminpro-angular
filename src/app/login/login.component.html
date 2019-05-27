@@ -1,5 +1,5 @@
 <body>
-    <form ngNativeValidate #f="ngForm" class="login" (ngSubmit)="ingresar( f )">
+    <form autocomplete="off" ngNativeValidate #f="ngForm" class="login" (ngSubmit)="ingresar( f )">
         <h1 class="login-title">Bienvenido</h1>
         <input [ngModel]="email" name="email" required type="email" class="login-input" placeholder="Email Adress" autofocus>
         <input ngModel name="password" required type="password" class="login-input" placeholder="Password">

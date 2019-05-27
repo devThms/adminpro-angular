@@ -6,8 +6,15 @@ import { ProgressComponent } from './progress/progress.component';
 import { GraphComponent } from './graph/graph.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { LoginGuardGuard } from '../services/guards/login-guard.guard';
+
+// Componentes Mantenimientos
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ProfileComponent } from './profile/profile.component';
+import { PerfilesComponent } from './perfiles/perfiles.component';
+import { PartidosComponent } from './partidos/partidos.component';
+import { PeriodosComponent } from './periodos/periodos.component';
+import { CandidatosComponent } from './candidatos/candidatos.component';
+import { CandidatoComponent } from './candidatos/candidato.component';
 
 
 const pagesRoutes: Routes = [
@@ -24,6 +31,11 @@ const pagesRoutes: Routes = [
             // Administración
             { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Mantenimiento de Usuarios' } },
             // Mantenimientos
+            { path: 'perfiles', component: PerfilesComponent, data: { titulo: 'Mantenimiento de Perfiles Políticos' } },
+            { path: 'partidos', component: PartidosComponent, data: { titulo: 'Mantenimiento de Partidos Políticos' } },
+            { path: 'periodos', component: PeriodosComponent, data: { titulo: 'Mantenimiento de Periodos de Participación' } },
+            { path: 'candidatos', component: CandidatosComponent, data: { titulo: 'Mantenimiento de Candidatos' } },
+            { path: 'candidato/:id', component: CandidatoComponent, data: { titulo: 'Perfil de Candidato' } },
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
         ]
     }

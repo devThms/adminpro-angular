@@ -1,5 +1,5 @@
 <body>
-    <form ngNativeValidate [formGroup]="form" (ngSubmit)="registrarUsuario()" class="login">
+    <form autocomplete="off" ngNativeValidate [formGroup]="form" (ngSubmit)="registrarUsuario()" class="login">
         <h1 class="login-title">Registro</h1>
         <input formControlName="nombre" name="nombre" type="text" class="login-input" required placeholder="Full Name" autofocus>
         <input formControlName="correo" name="correo" type="email" class="login-input" required placeholder="Email Adress">
