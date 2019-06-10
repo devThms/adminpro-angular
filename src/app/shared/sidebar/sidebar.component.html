@@ -6,7 +6,6 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
-                <li class="nav-small-cap"> PERSONAL</li>
                 <li class="user-profile">
                     <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><img [src]="usuario.img | imagen" alt="user"><span class="hide-menu">{{ usuario.name }}</span></a>
                     <ul aria-expanded="false" class="collapse">
@@ -24,7 +23,6 @@
 
 
                 <li class="nav-devider"></li>
-                <li class="nav-small-cap"> MANTENIMIENTOS</li>
                 <li *ngFor="let menu of _sidebar.menuAdmin">
                     <a class="has-arrow waves-effect waves-dark" aria-expanded="false"> <i [class]="menu.icono"></i><span class="hide-menu"> {{ menu.titulo }}<span class="label label-rouded label-themecolor pull-right"> {{ menu.submenu.length }} </span></span>
                     </a>
@@ -36,7 +34,6 @@
                 </li>
 
                 <li class="nav-devider"></li>
-                <li class="nav-small-cap"> OPERACIONES</li>
                 <li *ngFor="let menu of _sidebar.menuOperator">
                     <a class="has-arrow waves-effect waves-dark" aria-expanded="false"> <i [class]="menu.icono"></i><span class="hide-menu"> {{ menu.titulo }}<span class="label label-rouded label-themecolor pull-right"> {{ menu.submenu.length }} </span></span>
                     </a>

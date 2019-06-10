@@ -28,6 +28,11 @@ import { PartidosComponent } from './partidos/partidos.component';
 import { PeriodosComponent } from './periodos/periodos.component';
 import { CandidatosComponent } from './candidatos/candidatos.component';
 import { CandidatoComponent } from './candidatos/candidato.component';
+import { CentrosComponent } from './centros/centros.component';
+import { CentroComponent } from './centros/centro.component';
+import { ModalComponent } from '../components/modal/modal.component';
+import { CentrosVotacionComponent } from './votos/centros-votacion.component';
+import { MesasVotacionComponent } from './votos/mesas-votacion.component';
 
 @NgModule({
     declarations: [
@@ -45,7 +50,12 @@ import { CandidatoComponent } from './candidatos/candidato.component';
         PartidosComponent,
         PeriodosComponent,
         CandidatosComponent,
-        CandidatoComponent
+        CandidatoComponent,
+        CentrosComponent,
+        CentroComponent,
+        ModalComponent,
+        CentrosVotacionComponent,
+        MesasVotacionComponent
     ],
     exports: [
         PagesComponent,

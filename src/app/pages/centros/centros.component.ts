@@ -1,42 +1,39 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Candidato } from '../../models/candidato.model';
-import { CandidateService } from '../../services/candidate/candidate.service';
+import { Centro } from 'src/app/models/centro.model';
+import { VotingCenterService } from '../../services/votingCenter/voting-center.service';
 
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-candidatos',
-  templateUrl: './candidatos.component.html',
+  selector: 'app-centros',
+  templateUrl: './centros.component.html',
   styles: []
 })
-export class CandidatosComponent implements OnInit {
+export class CentrosComponent implements OnInit {
 
-  candidatos: Candidato[] = [];
+  centros: Centro[] = [];
   desde: number = 0;
   totalRegistros: number = 0;
   cargando: boolean = true;
 
-
   constructor(
     // tslint:disable-next-line:variable-name
-    public _candidateService: CandidateService
+    public _votingCenterService: VotingCenterService
   ) { }
 
   ngOnInit() {
-    this.cargarCandidatos();
-
+    this.cargarCentros();
   }
 
-
-  cargarCandidatos() {
+  cargarCentros() {
 
     this.cargando = true;
 
-    this._candidateService.cargarCandidatos( this.desde )
+    this._votingCenterService.cargarCentros( this.desde )
                         .subscribe( (resp: any) => {
                           this.totalRegistros = resp.total;
-                          this.candidatos = resp.candidates;
+                          this.centros = resp.centers;
                           this.cargando = false;
                         });
 
@@ -57,23 +54,23 @@ export class CandidatosComponent implements OnInit {
     }
 
     this.desde += valor;
-    this.cargarCandidatos();
+    this.cargarCentros();
   }
 
-  buscarCandidato( termino: string ) {
+  buscarCentro( termino: string ) {
 
     if ( termino.length <= 0 ) {
-      this.cargarCandidatos();
+      this.cargarCentros();
       return;
     }
 
-    this._candidateService.buscarCandidato( termino )
-                        .subscribe( (candidatos: Candidato[]) => {
-                          this.candidatos = candidatos;
+    this._votingCenterService.buscarCentro( termino )
+                        .subscribe( (centros: Centro[]) => {
+                          this.centros = centros;
                         });
   }
 
-  borrarCandidato( candidato: Candidato ) {
+  borrarCentro( centro: Centro ) {
 
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -94,15 +91,14 @@ export class CandidatosComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
 
-        this._candidateService.borrarCandidato( candidato._id )
+        this._votingCenterService.borrarCentro( centro._id )
                             .subscribe( borrado => {
-                              console.log(borrado);
-                              this.cargarCandidatos();
+                              this.cargarCentros();
                             });
 
         swalWithBootstrapButtons.fire(
           'Eliminado!',
-          'El candidato politico ha sido eliminado',
+          'El centro de votación ha sido eliminado',
           'success'
         );
 
@@ -119,6 +115,7 @@ export class CandidatosComponent implements OnInit {
     });
 
   }
+
 
 
 }

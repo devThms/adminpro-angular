@@ -15,6 +15,10 @@ import { PartidosComponent } from './partidos/partidos.component';
 import { PeriodosComponent } from './periodos/periodos.component';
 import { CandidatosComponent } from './candidatos/candidatos.component';
 import { CandidatoComponent } from './candidatos/candidato.component';
+import { CentrosComponent } from './centros/centros.component';
+import { CentroComponent } from './centros/centro.component';
+import { CentrosVotacionComponent } from './votos/centros-votacion.component';
+import { MesasVotacionComponent } from './votos/mesas-votacion.component';
 
 
 const pagesRoutes: Routes = [
@@ -23,7 +27,8 @@ const pagesRoutes: Routes = [
         component: PagesComponent,
         canActivate: [ LoginGuardGuard ],
         children: [
-            { path: 'dashboard', component: DashboardComponent, data: { titulo: 'Dashboard' } },
+            // tslint:disable-next-line:max-line-length
+            { path: 'dashboard', component: DashboardComponent, data: { titulo: 'Control Registro de Votación' } },
             { path: 'progress', component: ProgressComponent, data: { titulo: 'ProgressBar' } },
             { path: 'graph', component: GraphComponent,  data: { titulo: 'Graficas' } },
             { path: 'account', component: AccountSettingsComponent,  data: { titulo: 'Configuracion de Cuenta' } },
@@ -36,6 +41,11 @@ const pagesRoutes: Routes = [
             { path: 'periodos', component: PeriodosComponent, data: { titulo: 'Mantenimiento de Periodos de Participación' } },
             { path: 'candidatos', component: CandidatosComponent, data: { titulo: 'Mantenimiento de Candidatos' } },
             { path: 'candidato/:id', component: CandidatoComponent, data: { titulo: 'Perfil de Candidato' } },
+            { path: 'centros', component: CentrosComponent, data: { titulo: 'Mantenimiento de Centros de Votación' } },
+            { path: 'centro/:id', component: CentroComponent, data: { titulo: 'Centro de Votación' } },
+            // Operaciones
+            { path: 'centros-votacion', component: CentrosVotacionComponent, data: { titulo: 'Centros de Votación' } },
+            { path: 'centro/:id/mesas', component: MesasVotacionComponent, data: { titulo: 'Mesas de Votación' } },
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
         ]
     }

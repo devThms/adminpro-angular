@@ -1,3 +1,108 @@
-<p>
-  candidato works!
-</p>
+<div class="row animated fadeIn">
+
+    <!-- Column -->
+    <div class="col-lg-5 col-xlg-6 col-md-5">
+
+
+        <div class="card" *ngIf="candidato._id">
+            <h5 class="card-header bg-dark text-white"> Fotografia de Candidato</h5>
+            <div class="card-body" align="center">
+                <div class="m-t-30">
+                    <img (click)="cambiarFoto()" [src]="candidato.img | imagen: 'candidatos'" class="img-circle pointer" width="150px" height="150px" />
+                    <h4 class="card-title m-t-10"> {{ candidato.firstName + ' ' + candidato.lastName }} </h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h5 class="card-header bg-dark text-white"> Perfil Politico</h5>
+            <div class="card-body" align="center">
+                <img [src]="partido.logotype | imagen: 'partidos'" class="rounded img-fluid" width="150px" />
+                <h4 class="card-title m-t-10"> {{ perfil.name }} </h4>
+            </div>
+        </div>
+
+    </div>
+    <!-- Column -->
+
+    <!-- Column -->
+    <div class="col-lg-7 col-xlg-6 col-md-7">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white"> Perfil de Candidato</h5>
+            <div class="card-body">
+                <form autocomplete="off" ngNativeValidate #f="ngForm" (ngSubmit)="crearCandidato(f.value)" class="form-horizontal form-material">
+
+                    <div class="col-md-12">
+                        <input [(ngModel)]="candidato._id" name="_id" type="hidden" class="form-control form-control-line" placeholder="Ej: Francis" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-12"><b> Nombres: </b></label>
+                        <div class="col-md-12">
+                            <input [(ngModel)]="candidato.firstName" name="firstName" type="text" class="form-control form-control-line" placeholder="Ej: Francis" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12"><b> Apellidos: </b></label>
+                        <div class="col-md-12">
+                            <input [ngModel]="candidato.lastName" name="lastName" type="text" class="form-control form-control-line" placeholder="Ej: Pineda" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12"><b> Dirección: </b></label>
+                        <div class="col-md-12">
+                            <input [ngModel]="candidato.address" name="address" type="text" class="form-control form-control-line" placeholder="Ej: 10 Av. zona 15, Ciudad" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12"><b> Teléfono: </b></label>
+                        <div class="col-md-12">
+                            <input [ngModel]="candidato.phone" name="phone" type="text" class="form-control form-control-line" placeholder="Ej: 79489679" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12"><b> Partido Politico: </b></label>
+                        <div class="col-md-12">
+                            <select (change)="cambioPartido( $event.target.value )" [ngModel]="candidato.political" name="political" class="form-control form-control-line" required>
+                            <option value=""> Seleccione Partido Politico</option>
+                            <option *ngFor="let partido of partidos" [value]="partido._id">
+                              {{ partido.name }}
+                            </option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12"><b> Perfil Politico: </b></label>
+                        <div class="col-md-12">
+                            <select (change)="cambioPerfil( $event.target.value )" [ngModel]="candidato.profile" name="profile" class="form-control form-control-line" required>
+                            <option value=""> Seleccione Perfil Politico</option>
+                            <option *ngFor="let perfil of perfiles" [value]="perfil._id">
+                                {{ perfil.name }}
+                              </option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12"><b> Periodo de Participación: </b></label>
+                        <div class="col-md-12">
+                            <select [ngModel]="candidato.period" name="period" class="form-control" required>
+                            <option value=""> Seleccione Periodo de Participación</option>
+                            <option *ngFor="let periodo of periodos" [value]="periodo._id">
+                                {{ periodo.period }}
+                              </option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span><a [routerLink]="['/candidatos']" class="btn btn-outline-inverse"><i class="fa fa-times"> </i> Cancelar</a></span>
+                            <span class="pull-right"><button class="btn btn-outline-success"><i class="fa fa-save"> </i> Guardar</button></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+
+</div>

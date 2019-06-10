@@ -33,7 +33,10 @@ export class PoliticalProfileService {
     let url = URL_SERVICES + '/perfiles/' + id;
 
     return this.http.get( url )
-                .pipe(map( (resp: any) => resp.profile ));
+                .pipe(map( (resp: any) => {
+                  console.log(resp.profile);
+                  return resp.profile;
+                } ));
 
   }
 

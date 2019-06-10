@@ -12,7 +12,11 @@ import {
   PoliticalProfileService,
   PoliticalPartyService,
   ParticipationPeriodService,
-  CandidateService
+  CandidateService,
+  VotingCenterService,
+  RangeTablesService,
+  TableService,
+  VotingControlService
 } from './service.index';
 
 @NgModule({
@@ -31,7 +35,11 @@ import {
     PoliticalProfileService,
     PoliticalPartyService,
     ParticipationPeriodService,
-    CandidateService
+    CandidateService,
+    VotingCenterService,
+    RangeTablesService,
+    TableService,
+    VotingControlService
   ]
 })
 export class ServiceModule { }

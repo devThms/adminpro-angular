@@ -1,6 +1,3 @@
-import { Partido } from './partido.model';
-import { Perfil } from './perfil.model';
-import { Periodo } from './periodo.model';
 
 export class Candidato {
 
@@ -9,9 +6,9 @@ export class Candidato {
         public lastName: string,
         public address: string,
         public phone: string,
-        public political: Partido,
-        public profile: Perfil,
-        public period: Periodo,
+        public political?: string,
+        public profile?: string,
+        public period?: string,
         public img?: string,
         public status?: boolean,
         // tslint:disable-next-line:variable-name

@@ -15,7 +15,7 @@
         <div class="card">
             <h5 class="card-header bg-dark text-white">
                 Candidatos Politicos Registrados ( <small> {{ totalRegistros }} </small> )
-                <span class="pull-right"><button class="btn btn-rounded btn-outline-success"><i class="fa fa-plus"> </i> Crear </button></span>
+                <span class="pull-right"><button [routerLink]="['/candidato', 'nuevo']" class="btn btn-rounded btn-outline-success"><i class="fa fa-plus"> </i> Crear </button></span>
             </h5>
 
             <div class="card-body text-black">
@@ -40,13 +40,13 @@
                     </thead>
                     <tbody class="text-dark">
                         <tr *ngFor="let candidato of candidatos">
-                            <td width="70px"> <img [src]="candidato.img | imagen: 'candidatos'" class="img-circle" width="50px"> </td>
+                            <td width="70px"> <img [src]="candidato.img | imagen: 'candidatos'" class="img-circle" width="50px" height="50px"> </td>
                             <td> {{ candidato.firstName + ' ' + candidato.lastName}} </td>
                             <td> {{ candidato.profile.name }} </td>
                             <td> {{ candidato.political.name }} </td>
                             <td>
-                                <button class="btn btn-outline-primary"> <i class="fa fa-pencil-square-o"></i></button>
-                                <button class="btn btn-outline-danger"> <i class="fa fa-trash-o"></i></button>
+                                <button [routerLink]="['/candidato', candidato._id]" class="btn btn-outline-primary"> <i class="fa fa-pencil-square-o"></i></button>
+                                <button (click)="borrarCandidato(candidato)" class="btn btn-outline-danger"> <i class="fa fa-trash-o"></i></button>
                             </td>
                         </tr>
                     </tbody>

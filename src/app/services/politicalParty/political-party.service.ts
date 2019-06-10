@@ -18,10 +18,10 @@ export class PoliticalPartyService {
     public _usuarioService: UsuarioService
   ) { }
 
-  cargarPartidos( desde: number = 0) {
+  cargarPartidos( desde: number = 0, limit: number = 5 ) {
 
     // tslint:disable-next-line:prefer-const
-    let url = URL_SERVICES + '/partidos?desde=' + desde;
+    let url = URL_SERVICES + '/partidos?desde=' + desde + '&limit=' + limit;
 
     return this.http.get( url );
 

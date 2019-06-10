@@ -1,0 +1,250 @@
+<div class="row animated fadeIn">
+
+    <!-- Column -->
+    <div class="col-lg-7 col-xlg-6 col-md-7">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white"> Centro de Votación</h5>
+            <div class="card-body">
+                <form autocomplete="off" ngNativeValidate #fCentro="ngForm" (ngSubmit)="crearCentro(fCentro.value)" class="form-horizontal form-material">
+
+                    <div class="col-md-12">
+                        <input [ngModel]="centro._id" name="_id" type="hidden" class="form-control form-control-line" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-12"><b> Nombre: </b></label>
+                        <div class="col-md-12">
+                            <input [ngModel]="centro.name" name="name" type="text" class="form-control form-control-line" placeholder="Ej: Instituto Francisco Marroquin" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12"><b> Ubicación: </b></label>
+                        <div class="col-md-12">
+                            <input [ngModel]="centro.ubication" name="ubication" type="text" class="form-control form-control-line" placeholder="Ej: Av. Vicente Cozza, Morales" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12"><b> No. Mesas: </b></label>
+                        <div class="col-md-12">
+                            <input [ngModel]="centro.qtyTables" name="qtyTables" type="text" class="form-control form-control-line" placeholder="Ej: 25" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span><a [routerLink]="['/centros']" class="btn btn-outline-inverse"><i class="fa fa-times"> </i> Cancelar</a></span>
+                            <span class="pull-right"><button class="btn btn-outline-success"><i class="fa fa-save"> </i> Guardar</button></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+
+    <!-- Column -->
+    <div class="col-lg-5 col-xlg-6 col-md-7" *ngIf="centro._id">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white"> Rango de Mesas</h5>
+            <div class="card-body">
+
+                <form autocomplete="off" ngNativeValidate #fRango="ngForm" (ngSubmit)="crearRango(fRango.value)" class="form-horizontal form-material">
+
+                    <div class="col-md-12">
+                        <input [ngModel]="rango._id" name="_id" type="hidden" class="form-control form-control-line" required>
+                    </div>
+
+                    <div class="col-md-12">
+                        <input [ngModel]="centro._id" name="center" type="hidden" class="form-control form-control-line" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-12"><b> No. Inicial: </b></label>
+                        <div class="col-md-12">
+                            <input [ngModel]="rango.initial" name="initial" type="text" class="form-control form-control-line" placeholder="Ej: 1001" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12"><b> No. Final: </b></label>
+                        <div class="col-md-12">
+                            <input [ngModel]="rango.final" name="final" type="text" class="form-control form-control-line" placeholder="Ej: 2000" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span><a [routerLink]="['/centros']" class="btn btn-outline-inverse"><i class="fa fa-times"> </i> Cancelar</a></span>
+                            <span class="pull-right"><button class="btn btn-outline-success"><i class="fa fa-save"> </i> Guardar</button></span>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="cargando">
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong> Cargando </strong>
+            <br>
+            <i class=" fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span> Espere por favor</span>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white">
+                Mesas de Votación Registradas ( <small> {{ totalRegistros }} </small> )
+                <span class="pull-right"><button (click)="showModalCreate()" class="btn btn-rounded btn-outline-success"><i class="fa fa-plus"> </i> Crear </button></span>
+            </h5>
+
+            <div class="card-body text-black">
+                <div class="row">
+                    <div class="col-7">
+                        Mostrando [ <small> 5 </small> ] registros
+                    </div>
+                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Mesa Local </th>
+                            <th> Mesa Nacional </th>
+                            <th> Estado </th>
+                            <th width="150px"> Acciones </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark">
+                        <tr *ngFor="let mesa of mesas">
+                            <td> {{ mesa.localNumber }} </td>
+                            <td> {{ mesa.nationalNumber }} </td>
+                            <td *ngIf="!mesa.is_closed"><span class="badge badge-pill badge-success"> Abierta</span> </td>
+                            <td *ngIf="mesa.is_closed"><span class="badge badge-pill badge-danger"> Cerrada</span> </td>
+                            <td>
+                                <button (click)="showModalUpdate(mesa)" class="btn btn-rounded btn-outline-primary"> <i class="fa fa-pencil-square-o"></i></button>
+                                <button (click)="borrarMesa(mesa)" class="btn btn-rounded btn-outline-danger"> <i class="fa fa-trash-o"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="col-12">
+                    <span class="pull-right">
+                        <button (click)="cambiarDesde(-5)" class="btn btn-rounded btn-outline-inverse"><i class="fa fa-arrow-left"> </i> Anteriores </button>
+                        <button (click)="cambiarDesde(5)" class="btn btn-rounded btn-outline-inverse"> Siguientes <i class="fa fa-arrow-right"> </i></button>
+                </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 
+<app-modal [centroId]="centro._id">
+</app-modal> 
+-->
+
+<!-- Modal Create Mesa de Votación -->
+<div class="fondo-negro animated fadeIn" [ngClass]="modalCreate">
+    <div id="modalCreate" class="modal" style="display: block;" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b> <i class="fa fa-plus"> </i> Crear Mesa de Votación</b></h5>
+                    <button (click)="hideModalCreate(mesa)" type="button" class="close" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <form autocomplete="off" ngNativeValidate #fMesa="ngForm" (ngSubmit)="crearMesa( fMesa.value )" class="form-horizontal form-material">
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Número Local: </b></label>
+                            <div class="col-md-12">
+                                <input [(ngModel)]="mesa.localNumber" name="localNumber" #localNumber type="text" class="form-control form-control-line" placeholder="Ej: 1" required autofocus>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Número Nacional: </b></label>
+                            <div class="col-md-12">
+                                <input [(ngModel)]="mesa.nationalNumber" name="nationalNumber" #nationalNumber type="text" class="form-control form-control-line" placeholder="Ej: 1001" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success"><i class="fa fa-save"> </i> Guardar</button>
+                        <button (click)="hideModalCreate(mesa)" type="button" class="btn btn-outline-inverse">Cerrar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Update Mesa de Votación -->
+<div class="fondo-negro animated fadeIn" [ngClass]="modalUpdate">
+    <div class="modal" style="display: block;" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b> <i class="fa fa-pencil-square-o"> </i> Actualizar Mesa de Votación</b></h5>
+                    <button (click)="hideModalUpdate()" type="button" class="close" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form autocomplete="off" ngNativeValidate #fMesaUpdate="ngForm" (ngSubmit)="actualizarMesa( fMesaUpdate.value )" class="form-horizontal form-material">
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Número Local: </b></label>
+                            <div class="col-md-12">
+                                <input [ngModel]="mesa.localNumber" name="localNumber" type="text" class="form-control form-control-line" placeholder="Ej: 1" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Número Nacional: </b></label>
+                            <div class="col-md-12">
+                                <input [ngModel]="mesa.nationalNumber" name="nationalNumber" type="text" class="form-control form-control-line" placeholder="Ej: 1001" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12"><b> Estado: </b></label>
+                            <div class="col-md-12">
+                                <div class="switch">
+                                    <label> Abierta
+                                        <input [ngModel]="mesa.is_closed" name="is_closed" [value]="mesa.is_closed" type="checkbox">
+                                        <span class="lever switch-col-red"></span>
+                                        Cerrada
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success"><i class="fa fa-save"> </i> Guardar</button>
+                        <button (click)="hideModalUpdate(mesa)" type="button" class="btn btn-outline-inverse">Cerrar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>

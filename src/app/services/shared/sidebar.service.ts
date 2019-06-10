@@ -21,18 +21,17 @@ export class SidebarService {
         { titulo: 'Periodo', url: '/periodos', icono: 'mdi mdi-timer-sand' },
         { titulo: 'Partido Politico', url: '/partidos', icono: 'mdi mdi-cards-outline' },
         { titulo: 'Candidatos', url: '/candidatos', icono: 'mdi mdi-account-multiple' },
-        { titulo: 'Centros de Votación', url: '/centros', icono: 'mdi mdi-bank' },
-        { titulo: 'Mesas de Votación', url: '/mesas', icono: 'mdi mdi-table-edit' }
+        { titulo: 'Centros de Votación', url: '/centros', icono: 'mdi mdi-bank' }
       ]
     }
   ];
 
   menuOperator: any = [
     {
-      titulo: 'Registro',
+      titulo: 'Operaciones',
       icono: 'mdi mdi-book-open-page-variant',
       submenu: [
-        { titulo: 'Votación', url: '/votos', icono: 'mdi mdi-fingerprint' }
+        { titulo: 'Registro Votación', url: '/centros-votacion', icono: 'mdi mdi-fingerprint' }
       ]
     }
   ];

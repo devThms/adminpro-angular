@@ -1,0 +1,65 @@
+<div class="row animated fadeIn" *ngIf="cargando">
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong> Cargando </strong>
+            <br>
+            <i class=" fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span> Espere por favor</span>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white">
+                Centros de Votación Registrados ( <small> {{ totalRegistros }} </small> )
+                <span class="pull-right"><button [routerLink]="['/centro', 'nuevo']" class="btn btn-rounded btn-outline-success"><i class="fa fa-plus"> </i> Crear </button></span>
+            </h5>
+
+            <div class="card-body text-black">
+                <div class="row">
+                    <div class="col-7">
+                        Mostrando [ <small> 5 </small> ] registros
+                    </div>
+                    <div class="col-5">
+                        <span class="pull-right"><input #input (keyup)="buscarCentro( input.value )" type="text" class="form-control" placeholder="Buscar Centro...." autofocus></span>
+                    </div>
+                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Nombre </th>
+                            <th> Ubicación </th>
+                            <th> No. Mesas </th>
+                            <th width="150px"> Acciones </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark">
+                        <tr *ngFor="let centro of centros">
+                            <td> {{ centro.name }} </td>
+                            <td> {{ centro.ubication }} </td>
+                            <td> {{ centro.qtyTables }} </td>
+                            <td>
+                                <button [routerLink]="['/centro', centro._id]" class="btn btn-rounded btn-outline-primary"> <i class="fa fa-pencil-square-o"></i></button>
+                                <button (click)="borrarCentro(centro)" class="btn btn-rounded btn-outline-danger"> <i class="fa fa-trash-o"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="col-12">
+                    <span class="pull-right">
+                        <button (click)="cambiarDesde(-5)" class="btn btn-rounded btn-outline-inverse"><i class="fa fa-arrow-left"> </i> Anteriores </button>
+                        <button (click)="cambiarDesde(5)" class="btn btn-rounded btn-outline-inverse"> Siguientes <i class="fa fa-arrow-right"> </i></button>
+                </span>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

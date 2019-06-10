@@ -1,3 +1,62 @@
-<p>
-    dashboard works!
-</p>
+<div class="row animated fadeIn">
+
+    <div class="col-md-9 col-sm-12">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white"> Control de Votación</h5>
+            <div class="card-body text-black">
+
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label class="col-md-12"><b> Resultados por Perfil: </b></label>
+                        <div class="col-md-12">
+                            <select (change)="cambioPerfil( $event.target.value )" name="profile" class="form-control form-control-line" required>
+                                <option value=""> Seleccione Perfil Politico</option>
+                                <option *ngFor="let perfil of perfiles" [value]="perfil._id">
+                                    {{ perfil.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="barChartData" style="display: block">
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <div class="card">
+            <h5 class="card-header bg-dark text-white"> Registros de Votación</h5>
+
+            <div class="card-body">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Partido </th>
+                            <th> Votos </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark">
+                        <tr *ngFor="let voto of votosRegistrados">
+                            <td> {{ voto.partidos[0].name }} </td>
+                            <td> {{ voto.totalVotos }} </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="row animated fadeIn">
+
+
+</div>

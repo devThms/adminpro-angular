@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { URL_SERVICES } from 'src/app/config/config';
+
 import { UsuarioService } from '../usuario/usuario.service';
-import { Candidato } from '../../models/candidato.model';
+import { Centro } from '../../models/centro.model';
 
 import { map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 @Injectable({
   providedIn: 'root'
 })
-export class CandidateService {
+export class VotingCenterService {
 
   constructor(
     public http: HttpClient,
@@ -19,81 +19,81 @@ export class CandidateService {
     public _usuarioService: UsuarioService
   ) { }
 
-  cargarCandidatos( desde: number = 0) {
+  cargarCentros( desde: number = 0) {
 
     // tslint:disable-next-line:prefer-const
-    let url = URL_SERVICES + '/candidatos?desde=' + desde;
+    let url = URL_SERVICES + '/centros?desde=' + desde;
 
     return this.http.get( url );
 
   }
 
-  obtenerCandidato( id: string ) {
+  obtenerCentro( id: string ) {
 
     // tslint:disable-next-line:prefer-const
-    let url = URL_SERVICES + '/candidatos/' + id;
+    let url = URL_SERVICES + '/centros/' + id;
 
     return this.http.get( url )
                 .pipe(map( (resp: any) => {
-                  return resp.candidate;
+                  return resp.center;
                 }));
 
   }
 
-  borrarCandidato( id: string ) {
+  borrarCentro( id: string ) {
 
     // tslint:disable-next-line:prefer-const
-    let url = URL_SERVICES + '/candidatos/' + id + '?token=' + this._usuarioService.token;
+    let url = URL_SERVICES + '/centros/' + id + '?token=' + this._usuarioService.token;
 
     return this.http.delete( url );
 
   }
 
-  crearCandidato( candidato: Candidato ) {
+  crearCentro( centro: Centro ) {
 
     // tslint:disable-next-line:prefer-const
-    let url = URL_SERVICES + '/candidatos';
+    let url = URL_SERVICES + '/centros';
 
-    if ( candidato._id ) {
-    // Actualizar Candidato
-      url += '/' + candidato._id;
+    if ( centro._id ) {
+    // Actualizar Centro de Votación
+      url += '/' + centro._id;
       url += '?token=' + this._usuarioService.token;
 
-      return this.http.put( url, candidato )
+      return this.http.put( url, centro )
                     .pipe(map( (resp: any) => {
                       Swal.fire({
                         type: 'success',
-                        title: 'Candidato Politico Actualizado',
-                        text: candidato.firstName + ' ' + candidato.lastName
+                        title: 'Centro de Votación Actualizado',
+                        text: centro.name
                       });
-                      return resp.candidate;
+                      return resp.center;
                     }));
 
     } else {
-    // Crear Candidato
+    // Crear Centro de Votación
     url += '?token=' + this._usuarioService.token;
 
-    return this.http.post( url, candidato )
+    return this.http.post( url, centro )
                 .pipe(map((resp: any) => {
                   Swal.fire({
                     type: 'success',
-                    title: 'Candidato Politico Creado',
-                    text: candidato.firstName + ' ' + candidato.lastName
+                    title: 'Centro de Votación Creado',
+                    text: centro.name
                   });
-                  return resp.candidate;
+                  return resp.center;
                 }));
     }
 
 
   }
 
-  buscarCandidato( termino: string ) {
+  buscarCentro( termino: string ) {
 
     // tslint:disable-next-line:prefer-const
-    let url = URL_SERVICES + '/busqueda/coleccion/candidatos/' + termino;
+    let url = URL_SERVICES + '/busqueda/coleccion/centros/' + termino;
 
     return this.http.get( url )
-                    .pipe(map( (resp: any) => resp.candidatos) );
+                    .pipe(map( (resp: any) => resp.centros) );
 
   }
 

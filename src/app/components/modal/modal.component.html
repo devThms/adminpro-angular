@@ -1,0 +1,40 @@
+<!-- Modal Create Mesa de Votación -->
+<div class="fondo-negro animated fadeIn" [ngClass]="modalCreate">
+    <div id="modalCreate" class="modal" style="display: block;" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b> <i class="fa fa-plus"> </i> Crear Mesa de Votación</b></h5>
+                    <button (click)="hideModalCreate()" type="button" class="close" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <form autocomplete="off" ngNativeValidate #fMesa="ngForm" (ngSubmit)="crearMesa( fMesa.value )" class="form-horizontal form-material">
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Número Local: </b></label>
+                            <div class="col-md-12">
+                                <input [(ngModel)]="mesa.localNumber" name="localNumber" #localNumber type="text" class="form-control form-control-line" placeholder="Ej: 1" required autofocus>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Número Nacional: </b></label>
+                            <div class="col-md-12">
+                                <input [(ngModel)]="mesa.nationalNumber" name="nationalNumber" #nationalNumber type="text" class="form-control form-control-line" placeholder="Ej: 1001" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success"><i class="fa fa-save"> </i> Guardar</button>
+                        <button (click)="hideModalCreate()" type="button" class="btn btn-outline-inverse">Cerrar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
