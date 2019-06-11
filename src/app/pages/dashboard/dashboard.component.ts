@@ -115,7 +115,8 @@ export class DashboardComponent implements OnInit {
     } else {
       this.validator = false;
       this.widthCard = 'col-md-12 col-sm-12';
-      // TODO Vaciar la data de la gráfica
+      // TODO: limpiar la data del gráfico
+      this.vaciarData();
       return;
     }
 
@@ -124,6 +125,7 @@ export class DashboardComponent implements OnInit {
   obtenerVotosCentro( centerId: string ) {
 
     this.centro._id = centerId;
+    console.log(centerId);
 
     this._votingControlService.ObtenerVotosCentro( this.perfil._id, this.centro._id )
                               .subscribe( (resp: any) => {
@@ -151,6 +153,18 @@ export class DashboardComponent implements OnInit {
       this.totalVotos[i] = this.votosRegistrados[i].totalVotos;
     }
     this.totalVotos.push(1);
+
+  }
+
+  vaciarData() {
+
+    // tslint:disable-next-line:prefer-for-of
+    for ( let i = 0; i < this.totalVotos.length; i++ ) {
+      this.barChartLabels[i] = '';
+      this.chart.chart.data.datasets[0].data.pop();
+    }
+
+    this.chart.chart.update();
 
   }
 
