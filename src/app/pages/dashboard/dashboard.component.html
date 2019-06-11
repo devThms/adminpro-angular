@@ -1,6 +1,6 @@
 <div class="row animated fadeIn">
 
-    <div class="col-md-9 col-sm-12">
+    <div [ngClass]="widthCard">
         <div class="card">
             <h5 class="card-header bg-dark text-white"> Control de Votación</h5>
             <div class="card-body text-black">
@@ -17,18 +17,34 @@
                             </select>
                         </div>
                     </div>
+
+                    <div *ngIf="validator" class="form-group col-6">
+                        <label class="col-md-12"><b> Resultados por Centro de Votación: </b></label>
+                        <div class="col-md-12">
+                            <select (change)="obtenerVotosCentro( $event.target.value )" name="center" class="form-control form-control-line" required>
+                                <option value=""> Seleccione Centro</option>
+                                <option *ngFor="let centro of centros" [value]="centro._id">
+                                    {{ centro.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
-                <div *ngIf="barChartData" style="display: block">
-                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                <div *ngIf="validator" style="display: block">
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" [colors]="chartColors">
                     </canvas>
+                </div>
+
+                <div *ngIf="!validator">
+                    <h4> Seleccione un Perfil Politico</h4>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <div class="col-md-3 col-sm-12">
+    <div *ngIf="validator" class="col-md-3 col-sm-12">
         <div class="card">
             <h5 class="card-header bg-dark text-white"> Registros de Votación</h5>
 

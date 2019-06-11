@@ -20,7 +20,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-mesas-votacion',
   templateUrl: './mesas-votacion.component.html',
-  styles: []
+  styleUrls: ['./mesas-votacion.component.css']
 })
 export class MesasVotacionComponent implements OnInit {
 
@@ -152,6 +152,7 @@ export class MesasVotacionComponent implements OnInit {
   }
 
   showModalRegister( id: string ) {
+    this.voto.center = this.centro._id;
     this.voto.table = id;
     this.modalRegister = '';
   }
@@ -175,6 +176,7 @@ export class MesasVotacionComponent implements OnInit {
 
   showModalSelection( id: string ) {
     this.voto.table = id;
+    this.voto.center = this.centro._id;
     this.modalSelectionProfile = '';
   }
 

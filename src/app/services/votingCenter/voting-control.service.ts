@@ -28,14 +28,24 @@ export class VotingControlService {
 
   }
 
-  ObtenerVotos( id: string ) {
+  ObtenerVotos( profileId: string ) {
 
     // tslint:disable-next-line:prefer-const
-    let url = URL_SERVICES + '/control-votos/' + id;
+    let url = URL_SERVICES + '/control-votos/' + profileId;
 
     return this.http.get( url );
 
   }
+
+  ObtenerVotosCentro( profileId: string, centerId: string ) {
+
+    // tslint:disable-next-line:prefer-const
+    let url = URL_SERVICES + '/control-votos/' + profileId + '/' + centerId;
+
+    return this.http.get( url );
+
+  }
+
 
   borrarVoto( id: string ) {
 

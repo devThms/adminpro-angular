@@ -102,7 +102,7 @@
 
                 <form autocomplete="off" ngNativeValidate #fregister="ngForm" (ngSubmit)="registroVotos( fregister.value )" class="form-horizontal form-material">
 
-                    <div class="modal-body">
+                    <div class="modal-body modal-body-scroll">
                         <div class="form-group">
                             <label class="col-md-12"><b> Perfil Politico: </b></label>
                             <div class="col-md-12">
@@ -191,7 +191,7 @@
 
                 <form autocomplete="off" ngNativeValidate #fupdate="ngForm" (ngSubmit)="updateVotos( fupdate.value )" class="form-horizontal form-material">
 
-                    <div class="modal-body">
+                    <div class="modal-body modal-body-scroll">
 
                         <div *ngIf="totalRegistros === 0">
                             <label class="col-form-label">

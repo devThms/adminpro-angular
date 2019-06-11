@@ -8,6 +8,7 @@ export class Voto {
         public table?: string,
         public profile?: string,
         public political?: string,
+        public center?: string,
         public amount?: number,
         public status?: boolean,
         // tslint:disable-next-line:variable-name

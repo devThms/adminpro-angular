@@ -5,11 +5,13 @@ import { Label } from 'ng2-charts';
 
 // Models
 import { Perfil } from '../../models/perfil.model';
+import { Centro } from '../../models/centro.model';
 
 // Services
 import {
   PoliticalProfileService,
   VotingControlService,
+  VotingCenterService,
  } from '../../services/service.index';
 
 
@@ -24,10 +26,17 @@ export class DashboardComponent implements OnInit {
 
   // Data de BD
   perfiles: Perfil[] = [];
+  centros: Centro[] = [];
+  perfil: Perfil = new Perfil('', '');
+  centro: Centro = new Centro('', '', null);
+
   votosRegistrados: any[] = [];
   totalVotos: number[] = [];
-
   desde: number = 0;
+
+  validator: boolean = false;
+  widthCard: string = 'col-md-12 col-sm-12';
+
 
   // Ng2-Charts
   public barChartOptions: ChartOptions = {
@@ -39,6 +48,12 @@ export class DashboardComponent implements OnInit {
   public barChartLabels: Label[] = [];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
+  public chartColors: any[] = [
+    {
+      backgroundColor: ['#FF7360', '#6FC8CE', '#FAFFF2', '#FFFCC4', '#6FC8E0', '#6FC698',
+      '#6FC9E0', '#6FC8E0', '#H568E0', '#T96960', '#GTG666', '#FFF963', '#HHH965', '#FFF695',
+      '#000986', '#FFF783']
+    }];
 
   public barChartData: ChartDataSets[] = [
     { data: [],
@@ -50,6 +65,8 @@ export class DashboardComponent implements OnInit {
     // tslint:disable-next-line:variable-name
     public _politicalProfileService: PoliticalProfileService,
     // tslint:disable-next-line:variable-name
+    public _votingCenterService: VotingCenterService,
+    // tslint:disable-next-line:variable-name
     public _votingControlService: VotingControlService
   ) { }
 
@@ -60,7 +77,12 @@ export class DashboardComponent implements OnInit {
                           this.perfiles = resp.profiles;
                         });
 
-    this.inicializarData(this.totalVotos);
+    this._votingCenterService.cargarCentros( this.desde )
+                        .subscribe( (resp: any) => {
+                          this.centros = resp.centers;
+                        });
+
+    // this.inicializarData(this.totalVotos);
   }
 
 
@@ -75,13 +97,43 @@ export class DashboardComponent implements OnInit {
 
   cambioPerfil( profileId: string ) {
 
-    this._votingControlService.ObtenerVotos( profileId )
+    if (profileId) {
+
+      this.perfil._id = profileId;
+      console.log(profileId);
+
+      this._votingControlService.ObtenerVotos( this.perfil._id)
+                                .subscribe( (resp: any) => {
+                                  this.votosRegistrados = resp.votosRegistrados;
+                                  console.log(this.votosRegistrados);
+                                  this.cargarData();
+                                  this.inicializarData(this.totalVotos);
+                                });
+
+      this.validator = true;
+      this.widthCard = 'col-md-9 col-sm-12';
+    } else {
+      this.validator = false;
+      this.widthCard = 'col-md-12 col-sm-12';
+      // TODO Vaciar la data de la gráfica
+      return;
+    }
+
+  }
+
+  obtenerVotosCentro( centerId: string ) {
+
+    this.centro._id = centerId;
+
+    this._votingControlService.ObtenerVotosCentro( this.perfil._id, this.centro._id )
                               .subscribe( (resp: any) => {
                                 this.votosRegistrados = resp.votosRegistrados;
+                                console.log(this.votosRegistrados);
                                 this.cargarData();
                                 this.inicializarData(this.totalVotos);
                               });
   }
+
 
   inicializarData( data: number[] ) {
     setTimeout(() => {
