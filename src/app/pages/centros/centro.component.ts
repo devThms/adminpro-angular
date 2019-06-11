@@ -132,7 +132,7 @@ export class CentroComponent implements OnInit {
     this.modalCreate = '';
   }
 
-  hideModalUpdate( mesa: Mesa) {
+  hideModalUpdate( mesa: Mesa ) {
     mesa.localNumber = null;
     mesa.nationalNumber = null;
     this.modalUpdate = 'ocultar';
