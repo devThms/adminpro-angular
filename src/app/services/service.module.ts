@@ -8,6 +8,7 @@ import {
   SharedService,
   UsuarioService,
   LoginGuardGuard,
+  AdminGuard,
   SubirArchivoService,
   PoliticalProfileService,
   PoliticalPartyService,
@@ -16,7 +17,8 @@ import {
   VotingCenterService,
   RangeTablesService,
   TableService,
-  VotingControlService
+  VotingControlService,
+  VotingTotalService
 } from './service.index';
 
 @NgModule({
@@ -30,6 +32,7 @@ import {
     SharedService,
     UsuarioService,
     LoginGuardGuard,
+    AdminGuard,
     SubirArchivoService,
     ModalUploadService,
     PoliticalProfileService,
@@ -39,7 +42,8 @@ import {
     VotingCenterService,
     RangeTablesService,
     TableService,
-    VotingControlService
+    VotingControlService,
+    VotingTotalService
   ]
 })
 export class ServiceModule { }

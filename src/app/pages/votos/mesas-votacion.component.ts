@@ -6,13 +6,15 @@ import { Mesa } from '../../models/mesa.model';
 import { Perfil } from '../../models/perfil.model';
 import { Partido } from '../../models/partido.model';
 import { Voto } from '../../models/voto.model';
+import { totalVoto } from '../../models/totalVoto.model';
 
 import { PoliticalProfileService,
         VotingCenterService,
         TableService,
         PoliticalPartyService,
         UsuarioService,
-        VotingControlService
+        VotingControlService,
+        VotingTotalService
       } from '../../services/service.index';
 
 import Swal from 'sweetalert2';
@@ -27,6 +29,7 @@ export class MesasVotacionComponent implements OnInit {
   centro: Centro = new Centro('', '', 0);
   voto: Voto = new Voto(null, null);
   mesa: Mesa = new Mesa(null, null);
+  totalVotos: totalVoto = new totalVoto(null, null, null, null);
   votosRegistrados: Voto[] = [];
   mesas: Mesa[] = [];
   perfiles: Perfil[] = [];
@@ -42,6 +45,8 @@ export class MesasVotacionComponent implements OnInit {
   limit: number = null;
   totalRegistros: number = 0;
   cargando: boolean = true;
+  // Variable para sumar el total de votos registrados
+  total: number = null;
 
   modalRegister: string = 'ocultar';
   modalUpdateRegister: string = 'ocultar';
@@ -60,6 +65,8 @@ export class MesasVotacionComponent implements OnInit {
     public _usuarioService: UsuarioService,
     // tslint:disable-next-line:variable-name
     public _votingControlService: VotingControlService,
+    // tslint:disable-next-line:variable-name
+    public _votingTotalService: VotingTotalService,
     public router: Router,
     public activatedRoute: ActivatedRoute
   ) {
@@ -149,11 +156,17 @@ export class MesasVotacionComponent implements OnInit {
       this.votos[i] = null;
     }
     this.voto.profile = null;
+    this.totalVotos.nullVotes = null;
+    this.totalVotos.blankVotes = null;
+    this.totalVotos.objectionVotes = null;
   }
 
   showModalRegister( id: string ) {
     this.voto.center = this.centro._id;
     this.voto.table = id;
+
+    this.totalVotos.center = this.centro._id;
+    this.totalVotos.table = id;
     this.modalRegister = '';
   }
 
@@ -163,7 +176,9 @@ export class MesasVotacionComponent implements OnInit {
 
   hideModalUpdateRegister() {
     this.modalUpdateRegister = 'ocultar';
-
+    this.totalVotos.nullVotes = null;
+    this.totalVotos.blankVotes = null;
+    this.totalVotos.objectionVotes = null;
   }
 
   showModalUpdateRegister() {
@@ -177,21 +192,34 @@ export class MesasVotacionComponent implements OnInit {
   showModalSelection( id: string ) {
     this.voto.table = id;
     this.voto.center = this.centro._id;
+
+    this.totalVotos.table = id;
+    this.totalVotos.center = this.centro._id;
     this.modalSelectionProfile = '';
   }
 
   // Función para asociar un array en ngFor
   myCustomTrackBy(index) { return index; }
 
-  registroVotos( voto: Voto ) {
+  registroVotos( voto: Voto, totalvoto: totalVoto ) {
 
     const fecha: string = this.date.getDate() + '/' + (this.date.getMonth() + 1) + '/' + this.date.getFullYear();
     const hora: string = this.date.getHours() + ':' + this.date.getMinutes() + ':' + this.date.getSeconds();
 
+    // Instancia de Modelo Votos
     this.voto.profile = voto.profile;
     this.voto.user = this._usuarioService.usuario._id;
     this.voto.date = fecha;
     this.voto.time = hora;
+
+    // Instancia de Modelo TotalVotos
+    this.totalVotos.profile = voto.profile;
+    this.totalVotos.user = this._usuarioService.usuario._id;
+    this.totalVotos.nullVotes = totalvoto.nullVotes;
+    this.totalVotos.blankVotes = totalvoto.blankVotes;
+    this.totalVotos.objectionVotes = totalvoto.objectionVotes;
+
+    console.log(this.voto, this.totalVotos);
 
     this._votingControlService.cargarVotos(this.desde, this.voto.table, this.voto.profile)
         .subscribe( (resp: any) => {
@@ -213,9 +241,14 @@ export class MesasVotacionComponent implements OnInit {
                 this._votingControlService.crearVoto(this.voto)
                                           .subscribe();
 
+                this.totalVotos.validVotes += this.votos[i];
+
                 this.votos[i] = null;
 
             }
+
+            this._votingTotalService.crearTotalVotos(this.totalVotos)
+                                    .subscribe();
 
             this.hideModalRegister();
 
@@ -240,20 +273,42 @@ export class MesasVotacionComponent implements OnInit {
         .subscribe((resp: any) => {
           this.votosRegistrados = resp.controls;
           this.totalRegistros = resp.total;
+
+          if ( resp.total > 0 ) {
+            this.totalVotos.profile = voto.profile;
+            this._votingTotalService.cargarTotalVotos(this.voto.table, this.voto.profile)
+              .subscribe((response: any) => {
+                this.totalVotos = response.votes;
+                this.total = this.totalVotos.validVotes + this.totalVotos.nullVotes +
+                              this.totalVotos.blankVotes +
+                              this.totalVotos.objectionVotes;
+              });
+
+          } else {
+            this.total = 0;
+          }
+
         });
 
     this.hideModalSelection();
     this.showModalUpdateRegister();
   }
 
-  updateVotos( voto: Voto ) {
+  updateVotos( voto: Voto, totalvoto: totalVoto ) {
 
     const fecha: string = this.date.getDate() + '/' + (this.date.getMonth() + 1) + '/' + this.date.getFullYear();
     const hora: string = this.date.getHours() + ':' + this.date.getMinutes() + ':' + this.date.getSeconds();
 
+    // Instancia modelo Voto
     this.voto.user = this._usuarioService.usuario._id;
     this.voto.date = fecha;
     this.voto.time = hora;
+
+    // Instancia modelo totalVotos
+    this.totalVotos.user = this._usuarioService.usuario._id;
+    this.totalVotos.nullVotes = totalvoto.nullVotes;
+    this.totalVotos.blankVotes = totalvoto.blankVotes;
+    this.totalVotos.objectionVotes = totalvoto.objectionVotes;
 
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.votos.length; i++) {
@@ -261,11 +316,16 @@ export class MesasVotacionComponent implements OnInit {
       this.voto.political = this.partidosId[i];
       this.voto._id = this.votosId[i];
 
+      this.totalVotos.validVotes += this.votos[i];
+
       this._votingControlService.actualizarVoto(this.voto)
                                 .subscribe();
 
       this.votos[i] = null;
     }
+
+    this._votingTotalService.actualizarTotalVotos(this.totalVotos)
+                                    .subscribe();
 
     this.hideModalUpdateRegister();
 

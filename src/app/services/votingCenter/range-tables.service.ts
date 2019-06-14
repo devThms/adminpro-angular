@@ -5,8 +5,9 @@ import { URL_SERVICES } from 'src/app/config/config';
 import { UsuarioService } from '../usuario/usuario.service';
 import { Rango } from '../../models/rangoMesa.model';
 
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,17 @@ export class RangeTablesService {
                         title: 'Rango de mesas Actualizado'
                       });
                       return resp.range;
+                    }),
+                    catchError( err => {
+
+                      Swal.fire({
+                        type: 'error',
+                        title: err.error.mensaje,
+                        text: err.error.err.message
+                      });
+
+                      return throwError(err);
+
                     }));
 
     } else {
@@ -61,6 +73,17 @@ export class RangeTablesService {
                     title: 'Rango de mesas Creado'
                   });
                   return resp.range;
+                }),
+                catchError( err => {
+
+                  Swal.fire({
+                    type: 'error',
+                    title: err.error.mensaje,
+                    text: err.error.err.message
+                  });
+
+                  return throwError(err);
+
                 }));
     }
 

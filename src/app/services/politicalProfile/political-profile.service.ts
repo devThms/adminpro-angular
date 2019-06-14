@@ -5,7 +5,9 @@ import { URL_SERVICES } from '../../config/config';
 import { UsuarioService } from '../usuario/usuario.service';
 import { Perfil } from '../../models/perfil.model';
 
-import { map } from 'rxjs/operators';
+import { throwError } from 'rxjs/internal/observable/throwError';
+import { map, catchError } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +36,6 @@ export class PoliticalProfileService {
 
     return this.http.get( url )
                 .pipe(map( (resp: any) => {
-                  console.log(resp.profile);
                   return resp.profile;
                 } ));
 
@@ -45,7 +46,21 @@ export class PoliticalProfileService {
     // tslint:disable-next-line:prefer-const
     let url = URL_SERVICES + '/perfiles/' + id + '?token=' + this._usuarioService.token;
 
-    return this.http.delete( url );
+    return this.http.delete( url )
+                  .pipe(map((resp: any) => {
+                    return resp;
+                  }),
+                  catchError( err => {
+
+                    Swal.fire({
+                      type: 'error',
+                      title: err.error.mensaje,
+                      text: err.error.err.message
+                    });
+
+                    return throwError(err);
+
+                  }));
 
   }
 
@@ -57,6 +72,17 @@ export class PoliticalProfileService {
     return this.http.post( url, perfil )
                 .pipe(map((resp: any) => {
                   return resp.profile;
+                }),
+                catchError( err => {
+
+                  Swal.fire({
+                    type: 'error',
+                    title: err.error.mensaje,
+                    text: err.error.err.message
+                  });
+
+                  return throwError(err);
+
                 }));
 
   }
@@ -79,6 +105,17 @@ export class PoliticalProfileService {
     return this.http.put( url, perfil )
                     .pipe(map( (resp: any) => {
                       return resp.profile;
+                    }),
+                    catchError( err => {
+
+                      Swal.fire({
+                        type: 'error',
+                        title: err.error.mensaje,
+                        text: err.error.err.message
+                      });
+
+                      return throwError(err);
+
                     }));
 
   }

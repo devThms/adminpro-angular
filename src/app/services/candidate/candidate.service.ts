@@ -5,7 +5,9 @@ import { URL_SERVICES } from 'src/app/config/config';
 import { UsuarioService } from '../usuario/usuario.service';
 import { Candidato } from '../../models/candidato.model';
 
-import { map } from 'rxjs/operators';
+import { throwError } from 'rxjs/internal/observable/throwError';
+import { map, catchError } from 'rxjs/operators';
+
 import Swal from 'sweetalert2';
 
 @Injectable({
@@ -19,10 +21,10 @@ export class CandidateService {
     public _usuarioService: UsuarioService
   ) { }
 
-  cargarCandidatos( desde: number = 0) {
+  cargarCandidatos( desde: number = 0, limit: number = 0 ) {
 
     // tslint:disable-next-line:prefer-const
-    let url = URL_SERVICES + '/candidatos?desde=' + desde;
+    let url = URL_SERVICES + '/candidatos?desde=' + desde + '&limit=' + limit;
 
     return this.http.get( url );
 
@@ -36,6 +38,17 @@ export class CandidateService {
     return this.http.get( url )
                 .pipe(map( (resp: any) => {
                   return resp.candidate;
+                }),
+                catchError( err => {
+
+                  Swal.fire({
+                    type: 'error',
+                    title: err.error.mensaje,
+                    text: err.error.err.message
+                  });
+
+                  return throwError(err);
+
                 }));
 
   }
@@ -45,7 +58,21 @@ export class CandidateService {
     // tslint:disable-next-line:prefer-const
     let url = URL_SERVICES + '/candidatos/' + id + '?token=' + this._usuarioService.token;
 
-    return this.http.delete( url );
+    return this.http.delete( url )
+                  .pipe(map((resp: any) => {
+                    return resp;
+                  }),
+                  catchError( err => {
+
+                    Swal.fire({
+                      type: 'error',
+                      title: err.error.mensaje,
+                      text: err.error.err.message
+                    });
+
+                    return throwError(err);
+
+                  }));
 
   }
 
@@ -67,6 +94,17 @@ export class CandidateService {
                         text: candidato.firstName + ' ' + candidato.lastName
                       });
                       return resp.candidate;
+                    }),
+                    catchError( err => {
+
+                      Swal.fire({
+                        type: 'error',
+                        title: err.error.mensaje,
+                        text: err.error.err.message
+                      });
+
+                      return throwError(err);
+
                     }));
 
     } else {
@@ -81,6 +119,17 @@ export class CandidateService {
                     text: candidato.firstName + ' ' + candidato.lastName
                   });
                   return resp.candidate;
+                }),
+                catchError( err => {
+
+                  Swal.fire({
+                    type: 'error',
+                    title: err.error.mensaje,
+                    text: err.error.err.message
+                  });
+
+                  return throwError(err);
+
                 }));
     }
 

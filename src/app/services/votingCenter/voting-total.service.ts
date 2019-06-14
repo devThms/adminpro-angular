@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { URL_SERVICES } from 'src/app/config/config';
-
-import { map, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
+import { URL_SERVICES } from '../../config/config';
 
 import { UsuarioService } from '../usuario/usuario.service';
-import { Periodo } from '../../models/periodo.model';
+import { totalVoto } from '../../models/totalVoto.model';
 
+import { throwError } from 'rxjs/internal/observable/throwError';
+import { map, catchError } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ParticipationPeriodService {
+export class VotingTotalService {
 
   constructor(
     public http: HttpClient,
@@ -21,19 +20,37 @@ export class ParticipationPeriodService {
     public _usuarioService: UsuarioService
   ) { }
 
-  cargarPeriodos( desde: number = 0) {
+  cargarTotalVotos( mesaId: string, profileId: string ) {
 
     // tslint:disable-next-line:prefer-const
-    let url = URL_SERVICES + '/periodos?desde=' + desde;
+    let url = URL_SERVICES + '/total-votos/' + mesaId + '/' + profileId;
 
     return this.http.get( url );
 
   }
 
-  borrarPeriodo( id: string ) {
+  obtenerTotalVotos( profileId: string ) {
 
     // tslint:disable-next-line:prefer-const
-    let url = URL_SERVICES + '/periodos/' + id + '?token=' + this._usuarioService.token;
+    let url = URL_SERVICES + '/total-votos-perfil/' + profileId;
+
+    return this.http.get( url );
+
+  }
+
+  obtenerTotalVotosCentro( profileId: string, centerId: string ) {
+
+    // tslint:disable-next-line:prefer-const
+    let url = URL_SERVICES + '/total-votos-centro/' + profileId + '/' + centerId;
+
+    return this.http.get( url );
+
+  }
+
+  borrarTotalVotos( id: string ) {
+
+    // tslint:disable-next-line:prefer-const
+    let url = URL_SERVICES + '/total-votos/' + id + '?token=' + this._usuarioService.token;
 
     return this.http.delete( url )
                   .pipe(map((resp: any) => {
@@ -53,38 +70,27 @@ export class ParticipationPeriodService {
 
   }
 
-  crearPeriodo( periodo: Periodo ) {
+  crearTotalVotos( totalvoto: totalVoto ) {
 
     // tslint:disable-next-line:prefer-const
-    let url = URL_SERVICES + '/periodos/' + '?token=' + this._usuarioService.token;
+    let url = URL_SERVICES + '/total-votos/' + '?token=' + this._usuarioService.token;
 
-    return this.http.post( url, periodo )
+    return this.http.post( url, totalvoto )
                 .pipe(map((resp: any) => {
-                  return resp.period;
+                  return resp;
                 }),
-                catchError( err => {
-
-                  Swal.fire({
-                    type: 'error',
-                    title: err.error.mensaje,
-                    text: err.error.err.message
-                  });
-
-                  return throwError(err);
-
-                }));
+                catchError( err => throwError(err)));
 
   }
 
+  actualizarTotalVotos( totalvoto: totalVoto ) {
 
-  actualizarPeriodo( periodo: Periodo ) {
-
-    let url = URL_SERVICES + '/periodos/' + periodo._id;
+    let url = URL_SERVICES + '/total-votos/' + totalvoto._id;
     url += '?token=' + this._usuarioService.token;
 
-    return this.http.put( url, periodo )
+    return this.http.put( url, totalvoto )
                     .pipe(map( (resp: any) => {
-                      return resp.period;
+                      return resp.votes;
                     }),
                     catchError( err => {
 
@@ -99,6 +105,7 @@ export class ParticipationPeriodService {
                     }));
 
   }
+
 
 
 }

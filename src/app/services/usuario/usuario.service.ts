@@ -3,7 +3,9 @@ import { Usuario } from '../../models/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { URL_SERVICES } from '../../config/config';
 
-import { map } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+
 import { Router } from '@angular/router';
 import { SubirArchivoService } from '../uploads/subir-archivo.service';
 
@@ -16,6 +18,7 @@ export class UsuarioService {
 
   usuario: Usuario;
   token: string;
+  menu: any[] = [];
 
   constructor(
     public http: HttpClient,
@@ -35,21 +38,25 @@ export class UsuarioService {
     if ( localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
       this.usuario =  JSON.parse( localStorage.getItem('usuario') );
+      this.menu = JSON.parse(localStorage.getItem('menu'));
     } else {
       this.token = '';
       this.usuario = null;
+      this.menu = [];
     }
 
   }
 
-  guardarStorage( id: string, token: string, usuario: Usuario) {
+  guardarStorage( id: string, token: string, usuario: Usuario, menu: any ) {
 
     localStorage.setItem('id', id);
     localStorage.setItem('token', token);
     localStorage.setItem('usuario', JSON.stringify(usuario));
+    localStorage.setItem('menu', JSON.stringify(menu));
 
     this.usuario = usuario;
     this.token = token;
+    this.menu = menu;
 
   }
 
@@ -66,8 +73,19 @@ export class UsuarioService {
     return this.http.post( url, usuario )
                     .pipe(map((resp: any) => {
 
-                      this.guardarStorage( resp.id, resp.token, resp.user );
+                      this.guardarStorage( resp.id, resp.token, resp.user, resp.menu );
                       return true;
+
+                    }),
+                    catchError( err => {
+
+                      Swal.fire({
+                        type: 'error',
+                        title: 'Error en Login',
+                        text: err.error.mensaje
+                      });
+
+                      return throwError(err);
 
                     }));
 
@@ -77,9 +95,11 @@ export class UsuarioService {
 
     this.token = '';
     this.usuario = null;
+    this.menu = [];
 
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
+    localStorage.removeItem('menu');
 
     this.router.navigate(['/login']);
 
@@ -92,7 +112,19 @@ export class UsuarioService {
     return this.http.post( url, usuario )
                 .pipe(map((resp: any) => {
                   return resp.user;
+                }),
+                catchError( err => {
+
+                  Swal.fire({
+                    type: 'error',
+                    title: err.error.mensaje,
+                    text: err.error.err.message
+                  });
+
+                  return throwError(err);
+
                 }));
+
 
   }
 
@@ -109,11 +141,22 @@ export class UsuarioService {
                         // tslint:disable-next-line:prefer-const
                         let usuarioDB: Usuario = resp.user;
                         this.usuario = usuarioDB;
-                        this.guardarStorage( usuarioDB._id, this.token, usuarioDB);
+                        this.guardarStorage( usuarioDB._id, this.token, usuarioDB, this.menu );
 
                       }
 
                       return true;
+
+                    }),
+                    catchError( err => {
+
+                      Swal.fire({
+                        type: 'error',
+                        title: err.error.mensaje,
+                        text: err.error.err.message
+                      });
+
+                      return throwError(err);
 
                     }));
 
@@ -125,7 +168,7 @@ export class UsuarioService {
                               .then( (resp: any) => {
 
                                 this.usuario.img = resp.usuarioActualizado.img;
-                                this.guardarStorage( id, this.token, this.usuario );
+                                this.guardarStorage( id, this.token, this.usuario, this.menu );
 
                                 Swal.fire({
                                   type: 'success',
@@ -135,6 +178,10 @@ export class UsuarioService {
 
                               })
                               .catch( resp => {
+                                Swal.fire({
+                                  type: 'error',
+                                  title: 'Error al subir la imagen'
+                                });
                                 console.log(resp);
                               });
   }
@@ -163,7 +210,21 @@ export class UsuarioService {
     // tslint:disable-next-line:prefer-const
     let url = URL_SERVICES + '/usuarios/' + id + '?token=' + this.token;
 
-    return this.http.delete( url );
+    return this.http.delete( url )
+                  .pipe(map((resp: any) => {
+                    return resp;
+                  }),
+                  catchError( err => {
+
+                    Swal.fire({
+                      type: 'error',
+                      title: err.error.mensaje,
+                      text: err.error.err.message
+                    });
+
+                    return throwError(err);
+
+                  }));
 
   }
 

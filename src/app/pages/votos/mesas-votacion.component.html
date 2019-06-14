@@ -8,21 +8,30 @@
 
                 <div class="row ">
 
-                    <div class="col-6">
-                        <div class="form-group mb-1">
-                            <label class="col-md-12"><b> Ubicación: </b></label>
-                            <label class="col-md-12 text-info"> {{ centro.ubication }}</label>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label class="col-6"><b> Ubicación: </b></label>
+                                    <label class="col-6 text-info"> {{ centro.ubication }}</label>
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label class="col-6"><b> No. Mesas: </b></label>
+                                    <label class="col-6 text-info"> {{ centro.qtyTables }}</label>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="col-2">
-                        <div class="form-group mb-1">
-                            <label class="col-md-12"><b> No. Mesas: </b></label>
-                            <span class="pull-right"> <label class="col-md-12 text-info"> {{ centro.qtyTables }}</label> </span>
-                        </div>
-                    </div>
 
-                    <div class="col-4">
+
+                    <div class="col-md-6 col-sm-12">
                         <label class="col-md-12"><b> Buscar: </b></label>
                         <span class="pull-left pl-2"><input #input (keyup)="buscarMesas( input.value )" type="text" class="form-control d-block" placeholder="Buscar Mesas...." autofocus></span>
                     </div>
@@ -55,7 +64,7 @@
                             <th> Mesa Local </th>
                             <th> Mesa Nacional </th>
                             <th> Estado </th>
-                            <th width="200px"> Acciones </th>
+                            <th> Acciones </th>
                         </tr>
                     </thead>
                     <tbody class="text-dark">
@@ -65,10 +74,10 @@
                             <td *ngIf="!mesa.is_closed" (click)="cerrarMesa(mesa)" class="pointer"><span class="badge badge-pill badge-success"> Abierta</span> </td>
                             <td *ngIf="mesa.is_closed"><span class="badge badge-pill badge-danger"> Cerrada</span> </td>
                             <td>
-                                <button *ngIf="mesa.is_closed" disabled (click)="showModalRegister(mesa._id)" class="btn btn-rounded btn-outline-info"> <i class="fa fa-plus"></i> </button>
-                                <button *ngIf="mesa.is_closed" disabled (click)="showModalSelection(mesa._id)" class="btn btn-rounded btn-outline-primary"> <i class="fa fa-pencil-square-o"></i> </button>
-                                <button *ngIf="!mesa.is_closed" (click)="showModalRegister(mesa._id)" class="btn btn-rounded btn-outline-info"> <i class="fa fa-plus"></i> </button>
-                                <button *ngIf="!mesa.is_closed" (click)="showModalSelection(mesa._id)" class="btn btn-rounded btn-outline-primary"> <i class="fa fa-pencil-square-o"></i> </button>
+                                <button *ngIf="mesa.is_closed" disabled (click)="showModalRegister(mesa._id)" class="btn btn-rounded btn-outline-info"> <i class="fa fa-plus"></i></button>
+                                <button *ngIf="mesa.is_closed" disabled (click)="showModalSelection(mesa._id)" class="btn btn-rounded btn-outline-primary"> <i class="fa fa-pencil-square-o"></i></button>
+                                <button *ngIf="!mesa.is_closed" (click)="showModalRegister(mesa._id)" class="btn btn-rounded btn-outline-info"> <i class="fa fa-plus"></i></button>
+                                <button *ngIf="!mesa.is_closed" (click)="showModalSelection(mesa._id)" class="btn btn-rounded btn-outline-primary"> <i class="fa fa-pencil-square-o"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -76,8 +85,8 @@
 
                 <div class="col-12">
                     <span class="pull-right">
-                          <button (click)="cambiarDesde(-5)" class="btn btn-rounded btn-outline-inverse"><i class="fa fa-arrow-left"> </i> Anteriores </button>
-                          <button (click)="cambiarDesde(5)" class="btn btn-rounded btn-outline-inverse"> Siguientes <i class="fa fa-arrow-right"> </i></button>
+                          <button (click)="cambiarDesde(-5)" class="btn btn-rounded btn-outline-inverse"><i class="fa fa-arrow-left"> </i> prev </button>
+                          <button (click)="cambiarDesde(5)" class="btn btn-rounded btn-outline-inverse"> next <i class="fa fa-arrow-right"> </i></button>
                         </span>
                 </div>
 
@@ -94,13 +103,13 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><b> <i class="fa fa-pencil-square-o"> </i> Registro de Votación</b></h5>
+                    <h4 class="modal-title"><b> <i class="fa fa-pencil-square-o"> </i> Registro de Votación</b></h4>
                     <button (click)="hideModalRegister()" type="button" class="close" aria-label="Close">
                          <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
-                <form autocomplete="off" ngNativeValidate #fregister="ngForm" (ngSubmit)="registroVotos( fregister.value )" class="form-horizontal form-material">
+                <form autocomplete="off" ngNativeValidate #fregister="ngForm" (ngSubmit)="registroVotos( fregister.value, fregister.value )" class="form-horizontal form-material">
 
                     <div class="modal-body modal-body-scroll">
                         <div class="form-group">
@@ -119,6 +128,31 @@
                             <label for="political" class="col-md-6 col-form-label"><b> {{ partido.name }}: </b></label>
                             <div class="col-md-6">
                                 <input [attr.data-political]="partidosId[i] = partido._id" [(ngModel)]="votos[i]" name="votos" type="number" class="form-control" id="political" placeholder="Ej: 1" required>
+                            </div>
+                        </div>
+
+                        <hr class="my-2">
+                        <h5> <b>Contabilización de Votos</b></h5>
+                        <hr class="my-2">
+
+                        <div class="form-group row">
+                            <label class="col-md-6 col-sm-12"><b> Votos Nulos: </b></label>
+                            <div class="col-md-6 col-sm-12">
+                                <input [ngModel]="totalVotos.nullVotes" name="nullVotes" type="number" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-6 col-sm-12"><b> Votos en Blanco: </b></label>
+                            <div class="col-md-6 col-sm-12">
+                                <input [ngModel]="totalVotos.blankVotes" name="blankVotes" type="number" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-6 col-sm-12"><b> Votos Impugnados: </b></label>
+                            <div class="col-md-6 col-sm-12">
+                                <input [ngModel]="totalVotos.objectionVotes" name="objectionVotes" type="number" class="form-control" required>
                             </div>
                         </div>
 
@@ -162,7 +196,6 @@
                                 </select>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="modal-footer">
@@ -189,7 +222,7 @@
                     </button>
                 </div>
 
-                <form autocomplete="off" ngNativeValidate #fupdate="ngForm" (ngSubmit)="updateVotos( fupdate.value )" class="form-horizontal form-material">
+                <form autocomplete="off" ngNativeValidate #fupdate="ngForm" (ngSubmit)="updateVotos( fupdate.value, fupdate.value )" class="form-horizontal form-material">
 
                     <div class="modal-body modal-body-scroll">
 
@@ -200,25 +233,56 @@
                         </div>
 
                         <div *ngIf="totalRegistros !== 0">
-                            <label class="col-md-4 col-form-label"> <b> Partido </b> </label>
-                            <label class="col-md-4 col-form-label" align="center"> <b> Votos Actuales </b> </label>
-                            <label class="col-md-4 col-form-label" align="center"> <b> Actualizar </b> </label>
+                            <label class="col-md-6 col-sm-3 col-form-label" align="center"> <b> Votos Actuales </b> </label>
+                            <label class="col-md-6 col-sm-3 col-form-label" align="center"> <b> Actualizar </b> </label>
                         </div>
 
                         <div *ngFor="let votoRegistrado of votosRegistrados; let i = index; trackBy: myCustomTrackBy" class="form-group row">
-                            <label for="political" class="col-md-4 col-form-label">{{ votoRegistrado.political.name }}: </label>
-                            <div class="col-md-4" align="center">
-                                <label for="political" class="col-form-label">{{ votoRegistrado.amount }} </label>
-                            </div>
-                            <div class="col-md-4">
+                            <label for="political" class="col-md-6 col-sm-12 col-form-label">{{ votoRegistrado.political.name }}: <b>{{ votoRegistrado.amount }} votos </b></label>
+                            <div class="col-md-6 col-sm-12">
                                 <input [attr.data-votos]="votosId[i] = votoRegistrado._id" name="votosId[i]" type="hidden" class="form-control">
                                 <input [attr.data-political]="partidosId[i] = votoRegistrado.political._id" [(ngModel)]="votos[i]" name="votos" type="number" class="form-control" id="political" placeholder="Ej: 1" required>
+                            </div>
+                        </div>
+
+                        <div *ngIf="total !== 0">
+                            <hr class="my-2">
+                            <h5 class="modal-title"> <b>Contabilización de Votos </b></h5>
+                            <hr class="my-2">
+
+                            <div class="form-group row">
+                                <label class="col-md-6 col-sm-12"><b> Votos Validos: </b></label>
+                                <div class="col-md-6 col-sm-12">
+                                    <input [ngModel]="totalVotos.validVotes" name="validVotes" type="number" class="form-control" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-6 col-sm-12"><b> Votos Nulos: </b></label>
+                                <div class="col-md-6 col-sm-12">
+                                    <input [ngModel]="totalVotos.nullVotes" name="nullVotes" type="number" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-6 col-sm-12"><b> Votos en Blanco: </b></label>
+                                <div class="col-md-6 col-sm-12">
+                                    <input [ngModel]="totalVotos.blankVotes" name="blankVotes" type="number" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-6 col-sm-12"><b> Votos Impugnados: </b></label>
+                                <div class="col-md-6 col-sm-12">
+                                    <input [ngModel]="totalVotos.objectionVotes" name="objectionVotes" type="number" class="form-control" required>
+                                </div>
                             </div>
                         </div>
 
                     </div>
 
                     <div class="modal-footer">
+                        <h5 *ngIf="total !== 0"> <b> Total de Votos: {{total}}</b> </h5>
                         <button *ngIf="totalRegistros !== 0" type="submit" class="btn btn-outline-success"><i class="fa fa-save"> </i> Guardar</button>
                         <button *ngIf="totalRegistros !== 0" (click)="hideModalUpdateRegister()" type="button" class="btn btn-outline-inverse"> <i class="fa fa-times"> </i> Cancelar</button>
                         <button *ngIf="totalRegistros === 0" (click)="hideModalUpdateRegister(); showModalRegisterTwo();" type="button" class="btn btn-outline-inverse"> <i class="fa fa-arrow-left"> </i> Ir a Registro</button>

@@ -28,6 +28,7 @@ export class CandidatoComponent implements OnInit {
   partido: Partido = new Partido('', '', '', '');
   perfil: Perfil = new Perfil('', '');
   desde: number = 0;
+  limit: number = 0;
 
   constructor(
     // tslint:disable-next-line:variable-name
@@ -59,7 +60,7 @@ export class CandidatoComponent implements OnInit {
 
   ngOnInit() {
 
-    this._politicalPartyService.cargarPartidos( this.desde )
+    this._politicalPartyService.cargarPartidos( this.desde, this.limit )
                         .subscribe( (resp: any) => {
                           this.partidos = resp.politicals;
                         });

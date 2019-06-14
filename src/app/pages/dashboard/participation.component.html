@@ -2,13 +2,11 @@
 
     <div class="col-md-12 col-sm-12">
         <div class="card">
-            <h5 class="card-header bg-dark text-white"> Control de Votación
-                <span class="pull-right"><button [routerLink]="['/dashboard-participation']" class="btn btn-rounded btn-outline-success"><i class="fa fa-plus"> </i> Verificar Participación </button></span>
-            </h5>
+            <h5 class="card-header bg-dark text-white"> Control de Participación</h5>
             <div class="card-body text-black">
 
                 <div class="row">
-                    <div class="col-md-9 col-sm-12">
+                    <div class="col-md-12 col-sm-12">
 
                         <div class="row">
                             <div class="form-group col-md-6 col-sm-12">
@@ -26,7 +24,7 @@
                             <div *ngIf="validator" class="form-group col-md-6 col-sm-12">
                                 <label class="col-md-12 col-sm-12"><b> Resultados por Centro de Votación: </b></label>
                                 <div class="col-md-12 col-sm-12">
-                                    <select (change)="obtenerVotosCentro( $event.target.value )" name="center" class="form-control form-control-line" required>
+                                    <select (change)="obtenerVotosCentro( $event.target.value )" [ngModel]="centro.name" name="center" class="form-control form-control-line" required>
                                         <option value=""> Seleccione Centro</option>
                                         <option *ngFor="let centro of centros" [value]="centro._id">
                                             {{ centro.name }}
@@ -38,7 +36,7 @@
 
 
                         <div *ngIf="validator" style="display: block">
-                            <canvas id="chart2" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                            <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
                                 </canvas>
                         </div>
 
@@ -48,24 +46,6 @@
 
                     </div>
 
-                    <div *ngIf="validator" class="col-md-3 col-sm-12">
-
-                        <table class="table table-hover uk-table-condensed">
-                            <thead>
-                                <tr>
-                                    <th> Partido </th>
-                                    <th> Votos </th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-dark">
-                                <tr *ngFor="let voto of votosRegistrados">
-                                    <td> {{ voto.partidos[0].name }} </td>
-                                    <td> {{ voto.totalVotos }} </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
                 </div>
 
 

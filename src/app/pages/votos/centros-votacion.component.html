@@ -14,36 +14,33 @@
     <div class="col-12">
         <div class="card">
             <h5 class="card-header bg-dark text-white">
-                Centros de Votación Registrados ( <small> {{ totalRegistros }} </small> )
-                <!-- <span class="pull-right"><button [routerLink]="['/mesasVotacion', 'nuevo']" class="btn btn-rounded btn-outline-success"><i class="fa fa-plus"> </i> Crear </button></span> -->
+                Centros de Votación ( <small> {{ totalRegistros }} </small> )
             </h5>
 
             <div class="card-body text-black">
                 <div class="row">
-                    <div class="col-7">
+                    <div class="col-md-7 col-sm-12">
                         Mostrando [ <small> 5 </small> ] registros
                     </div>
-                    <div class="col-5">
+                    <div class="col-md-5 col-sm-12">
                         <span class="pull-right"><input #input (keyup)="buscarCentro( input.value )" type="text" class="form-control" placeholder="Buscar Centro...." autofocus></span>
                     </div>
                 </div>
+
+                <hr class="my-2">
 
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th> Nombre </th>
-                            <th> Ubicación </th>
-                            <th> No. Mesas </th>
-                            <th width="150px"> Acciones </th>
+                            <th> Acciones </th>
                         </tr>
                     </thead>
                     <tbody class="text-dark">
                         <tr *ngFor="let centro of centros">
                             <td> {{ centro.name }} </td>
-                            <td> {{ centro.ubication }} </td>
-                            <td> {{ centro.qtyTables }} </td>
                             <td>
-                                <button [routerLink]="['/centro', centro._id, 'mesas']" class="btn btn-rounded btn-outline-info"> <i class="fa fa-plus"></i> Registro</button>
+                                <button [routerLink]="['/centro', centro._id, 'mesas']" class="btn btn-rounded btn-outline-info"> <i class="fa fa-plus"></i> R</button>
                             </td>
                         </tr>
                     </tbody>
@@ -51,8 +48,8 @@
 
                 <div class="col-12">
                     <span class="pull-right">
-                      <button (click)="cambiarDesde(-5)" class="btn btn-outline-inverse"><i class="fa fa-arrow-left"> </i> Anteriores </button>
-                      <button (click)="cambiarDesde(5)" class="btn btn-outline-inverse"> Siguientes <i class="fa fa-arrow-right"> </i></button>
+                      <button (click)="cambiarDesde(-5)" class="btn btn-outline-inverse"><i class="fa fa-arrow-left"> </i> Prev </button>
+                      <button (click)="cambiarDesde(5)" class="btn btn-outline-inverse"> Next <i class="fa fa-arrow-right"> </i></button>
               </span>
                 </div>
 

@@ -33,6 +33,7 @@ import { CentroComponent } from './centros/centro.component';
 import { ModalComponent } from '../components/modal/modal.component';
 import { CentrosVotacionComponent } from './votos/centros-votacion.component';
 import { MesasVotacionComponent } from './votos/mesas-votacion.component';
+import { ParticipationComponent } from './dashboard/participation.component';
 
 @NgModule({
     declarations: [
@@ -55,7 +56,8 @@ import { MesasVotacionComponent } from './votos/mesas-votacion.component';
         CentroComponent,
         ModalComponent,
         CentrosVotacionComponent,
-        MesasVotacionComponent
+        MesasVotacionComponent,
+        ParticipationComponent
     ],
     exports: [
         PagesComponent,
