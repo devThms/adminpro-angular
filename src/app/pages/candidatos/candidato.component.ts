@@ -25,7 +25,7 @@ export class CandidatoComponent implements OnInit {
   perfiles: Perfil[] = [];
   periodos: Periodo[] = [];
   candidato: Candidato = new Candidato('', '', '', '', null, null, null, '', true, '');
-  partido: Partido = new Partido('', '', '', '');
+  partido: Partido = new Partido('', '', '', '', '');
   perfil: Perfil = new Perfil('', '');
   desde: number = 0;
   limit: number = 0;

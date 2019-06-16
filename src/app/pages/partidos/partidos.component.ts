@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 export class PartidosComponent implements OnInit {
 
   partidos: Partido[] = [];
-  partido: Partido = new Partido('', '', '', '', '', true, '');
+  partido: Partido = new Partido('', '', '', '', '', '', true, '');
   desde: number = 0;
   totalRegistros: number = 0;
   cargando: boolean = true;
@@ -40,6 +40,7 @@ export class PartidosComponent implements OnInit {
       name: new FormControl( null, Validators.required ),
       address: new FormControl( null, Validators.required ),
       phone: new FormControl( null, Validators.required ),
+      color: new FormControl( null, Validators.required ),
       foundation: new FormControl( null, Validators.required )
     });
 
@@ -162,6 +163,7 @@ export class PartidosComponent implements OnInit {
     this.partido.name = partido.name;
     this.partido.address = partido.address;
     this.partido.phone = partido.phone;
+    this.partido.color = partido.color;
     this.partido.foundation = partido.foundation;
 
     this._politicalPartyService.actualizarPartido( this.partido )
@@ -187,6 +189,7 @@ export class PartidosComponent implements OnInit {
       this.form.value.name,
       this.form.value.address,
       this.form.value.phone,
+      this.form.value.color,
       this.form.value.foundation
     );
 

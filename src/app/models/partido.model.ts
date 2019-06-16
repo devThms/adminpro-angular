@@ -6,6 +6,7 @@ export class Partido {
         public address: string,
         public phone: string,
         public foundation: string,
+        public color: string,
         public logotype?: string,
         public status?: boolean,
         // tslint:disable-next-line:variable-name

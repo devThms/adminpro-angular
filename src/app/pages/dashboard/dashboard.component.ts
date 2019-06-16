@@ -35,10 +35,8 @@ export class DashboardComponent implements OnInit {
   totalVotosRegistrados: any[] = [];
   totalVotos: number[] = [];
   desde: number = 0;
-  sub: string;
 
   validator: boolean = false;
-
 
   // Ng2-Charts Votos
   public barChartOptions: ChartOptions = {
@@ -50,12 +48,10 @@ export class DashboardComponent implements OnInit {
   public barChartLabels: Label[] = [];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
-  // public chartColors: any[] = [
-  //   {
-  //     backgroundColor: ['#FF7360', '#6FC8CE', '#FAFFF2', '#FFFCC4', '#6FC8E0', '#6FC698',
-  //     '#6FC9E0', '#6FC8E0', '#H568E0', '#T96960', '#GTG666', '#FFF963', '#HHH965', '#FFF695',
-  //     '#000986', '#FFF783']
-  //   }];
+  public chartColors: any[] = [
+    {
+      backgroundColor: []
+    }];
 
   public barChartData: ChartDataSets[] = [
     { data: [],
@@ -149,21 +145,22 @@ export class DashboardComponent implements OnInit {
     setTimeout(() => {
       this.chart.chart.data.datasets[0].data = data;
       this.chart.chart.update();
-      console.log('Llamado');
     }, 100);
   }
 
   cargarData() {
 
-      if ( this.barChartData[0].data.length > 0 ) {
+      if ( this.votosRegistrados.length > 0 ) {
         // tslint:disable-next-line:prefer-for-of
         for ( let i = 0; i < this.votosRegistrados.length; i++ ) {
           this.barChartData[0].data.pop();
+          this.chartColors[0].backgroundColor.pop();
         }
       }
       // tslint:disable-next-line:prefer-for-of
       for ( let i = 0; i < this.votosRegistrados.length; i++ ) {
         this.barChartLabels[i] = this.votosRegistrados[i].partidos[0].name;
+        this.chartColors[0].backgroundColor.push(this.votosRegistrados[i].partidos[0].color);
         this.totalVotos[i] = this.votosRegistrados[i].totalVotos;
       }
       this.totalVotos.push(1);
@@ -175,6 +172,7 @@ export class DashboardComponent implements OnInit {
     // tslint:disable-next-line:prefer-for-of
     for ( let i = 0; i < this.totalVotos.length; i++ ) {
       this.barChartData[0].data.pop();
+      this.chartColors[0].backgroundColor.pop();
     }
     this.totalVotos = [];
 

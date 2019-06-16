@@ -100,6 +100,12 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-12"> <b> Color del Partido: </b></label>
+                            <div class="col-md-12">
+                                <input formControlName="color" name="color" type="text" class="form-control form-control-line" placeholder="Ej: #FCJ890" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-12"> <b> Año de Fundación: </b></label>
                             <div class="col-md-12">
                                 <input formControlName="foundation" name="foundation" type="date" class="form-control form-control-line" placeholder="Ej: 15/05/2019" required>
@@ -150,6 +156,12 @@
                             <label class="col-md-12"> <b> Telefono del Partido: </b></label>
                             <div class="col-md-12">
                                 <input [ngModel]="partido.phone" name="phone" type="text" class="form-control form-control-line" placeholder="Ej: 79489649" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12"> <b> Color del Partido: </b></label>
+                            <div class="col-md-12">
+                                <input [ngModel]="partido.color" name="color" type="text" class="form-control form-control-line" placeholder="Ej: #FHC907" required>
                             </div>
                         </div>
                         <div class="form-group">
