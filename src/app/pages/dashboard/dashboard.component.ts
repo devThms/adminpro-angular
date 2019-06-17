@@ -35,6 +35,7 @@ export class DashboardComponent implements OnInit {
   totalVotosRegistrados: any[] = [];
   totalVotos: number[] = [];
   desde: number = 0;
+  limite: number = 0;
 
   validator: boolean = false;
 
@@ -77,7 +78,7 @@ export class DashboardComponent implements OnInit {
                           this.perfiles = resp.profiles;
                         });
 
-    this._votingCenterService.cargarCentros( this.desde )
+    this._votingCenterService.cargarCentros( this.desde, this.limite )
                         .subscribe( (resp: any) => {
                           this.centros = resp.centers;
                         });

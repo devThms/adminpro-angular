@@ -20,10 +20,10 @@ export class VotingCenterService {
     public _usuarioService: UsuarioService
   ) { }
 
-  cargarCentros( desde: number = 0) {
+  cargarCentros( desde: number = 0, limite: number = 5) {
 
     // tslint:disable-next-line:prefer-const
-    let url = URL_SERVICES + '/centros?desde=' + desde;
+    let url = URL_SERVICES + '/centros?desde=' + desde + '&limite=' + limite;
 
     return this.http.get( url );
 
